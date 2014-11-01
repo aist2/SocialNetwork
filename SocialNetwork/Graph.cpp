@@ -13,6 +13,7 @@ Vertex::~Vertex()
 int Vertex::getEdgeSize()
 {
 	return edges.size();
+
 }
 
 void Vertex::print()
