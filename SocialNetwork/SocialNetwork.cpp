@@ -5,12 +5,15 @@
 int main()
 {
 	Graph* pG;
-	pG = generatePreferentialGraph(3, 0.5);
+	pG = generateRandomGraph(100, 1);
 
-	pG->printEdges();
-	pG->printVertices();
+	//pG->printEdges();
+	//pG->printVertices();
 
-	system("PAUSE");
+	std::cout << "Number of nodes: " << pG->getVertexSize() << std::endl;
+	std::cout << "Number of edges: " << pG->getEdgeSize() << std::endl;
+
+	//system("PAUSE");
 	return 0;
 }
 
