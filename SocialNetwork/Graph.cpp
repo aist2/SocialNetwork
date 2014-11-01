@@ -96,7 +96,7 @@ Vertex* Graph::findVertex(int id)
 {
 	Vertex* pV = NULL;
 
-	for (int i=0; i < vertices.size(); i++)
+	for (unsigned i=0; i < vertices.size(); i++)
 	{
 		if(vertices[i]->id==id)
 			pV = vertices[i];
@@ -112,7 +112,7 @@ Vertex* Graph::getVertexByIndex(int i)
 void Graph::printEdges()
 {
 	std::cout << "===Edges===" << std::endl;
-	for (int i = 0; i < edges.size(); i++)
+	for (unsigned i = 0; i < edges.size(); i++)
         edges[i]->print();
 	std::cout << "===Edges===" << std::endl;
 }
@@ -120,7 +120,7 @@ void Graph::printEdges()
 void Graph::printVertices()
 {
 	std::cout << "===Vertices===" << std::endl;
-	for (int i = 0; i < vertices.size(); i++)
+	for (unsigned i = 0; i < vertices.size(); i++)
         vertices[i]->print();
 	std::cout << "===Vertices===" << std::endl;
 }
