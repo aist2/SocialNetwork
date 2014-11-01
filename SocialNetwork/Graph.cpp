@@ -4,17 +4,22 @@ Vertex::Vertex(int newId)
 {
 	id = newId;
 	visited = false;
-	edges = new std::vector<Edge*>;
 }
 
 Vertex::~Vertex()
 {
 }
 
+int Vertex::getEdgeSize()
+{
+	return edges.size();
+}
+
 void Vertex::print()
 {
-	std::cout << id;
-    std::cout << std::endl;
+	std::cout << "id: " << id;
+	std::cout << "; size of edges: " << getEdgeSize();;
+	std::cout << std::endl;
 }
 
 Edge::Edge(Vertex* pV1, Vertex* pV2)
@@ -50,7 +55,7 @@ int Graph::getEdgeSize()
 	return edges.size();
 }
 
-void Graph::addEdge(int id1, int id2)
+Edge* Graph::addEdge(int id1, int id2)
 {
 	Vertex* pV1;
 	Vertex* pV2;
@@ -73,14 +78,17 @@ void Graph::addEdge(int id1, int id2)
 	Edge* pE2 = new Edge(pV2,pV1);
 
 	edges.push_back(pE1);
-	pV1->edges->push_back(pE1);
-	pV2->edges->push_back(pE2);
+	pV1->edges.push_back(pE1);
+	pV2->edges.push_back(pE2);
+	
+	return pE1;
 }
 
-void Graph::addVertex(int id)
+Vertex* Graph::addVertex(int id)
 {
 	Vertex* pV = new Vertex(id);
 	vertices.push_back(pV);
+	return pV;
 }
 
 Vertex* Graph::findVertex(int id)
@@ -93,6 +101,11 @@ Vertex* Graph::findVertex(int id)
 			pV = vertices[i];
 	}
 	return pV;
+}
+
+Vertex* Graph::getVertexByIndex(int i)
+{
+	return vertices[i];;
 }
 
 void Graph::printEdges()

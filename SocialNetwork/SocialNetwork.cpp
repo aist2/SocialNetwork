@@ -5,10 +5,10 @@
 int main()
 {
 	Graph* pG;
-	pG = generateRandomGraph(100, 1);
+	pG = generatePreferentialGraph(1000, 100);
 
 	//pG->printEdges();
-	//pG->printVertices();
+	pG->printVertices();
 
 	std::cout << "Number of nodes: " << pG->getVertexSize() << std::endl;
 	std::cout << "Number of edges: " << pG->getEdgeSize() << std::endl;
