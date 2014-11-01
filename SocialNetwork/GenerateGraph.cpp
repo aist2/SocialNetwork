@@ -1,4 +1,8 @@
 #include "Header.h"
+#include <iostream>
+#include <cstdlib>
+#include <string>
+#include <sstream>
 
 Graph* generateRandomGraph(int nodeSize, int prob)
 {
@@ -54,16 +58,49 @@ Graph* generatePreferentialGraph(int nodeSize, int prob)
 			{
 				newProb = prob;
 			}
-			//std::cout << "i: " << i << " j: " << j << " prob: " << newProb << std::endl;
+			//cout << "i: " << i << " j: " << j << " prob: " << newProb << endl;
 			if (isAddEdge(newProb))
 			{
 				pG->addEdge(j,i);
-				//std::cout << "added edge i: " << i << " j: " << j << std::endl;
+				//cout << "added edge i: " << i << " j: " << j << endl;
 			}
 		}
 		sumDegree += pVI->getEdgeSize();
 	}
 
 	std::cout << "Generating Preferential Graph DONE" << std::endl;
+	return pG;
+}
+
+
+
+
+std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
+    std::stringstream ss(s);
+    std::string item;
+    while (std::getline(ss, item, delim)) {
+        elems.push_back(item);
+    }
+    return elems;
+}
+
+
+std::vector<std::string> split(const std::string &s, char delim) {
+    std::vector<std::string> elems;
+    split(s, delim, elems);
+    return elems;
+}
+
+Graph* readRealGraph() {
+	std::string line;
+	std::ifstream file("facebook_combined.txt");
+	std::string str;
+	Graph* pG = new Graph();
+	while (getline(file, str)) {
+		std::vector<std::string> vertices = split(str, ' ');
+		int id_v1 = atoi(vertices.at(0).c_str());
+		int id_v2 = atoi(vertices.at(1).c_str());
+		pG->addEdge(id_v1,id_v2);
+	}
 	return pG;
 }

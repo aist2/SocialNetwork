@@ -5,8 +5,8 @@
 int main()
 {
 	Graph* pG;
-	pG = generatePreferentialGraph(1000, 100);
-
+//	pG = generatePreferentialGraph(1000, 100);
+	pG = readRealGraph();
 	//pG->printEdges();
 	pG->printVertices();
 
