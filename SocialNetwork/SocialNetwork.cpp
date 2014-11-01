@@ -1,18 +1,14 @@
 // SocialNetwork.cpp : Defines the entry point for the console application.
 //
-#include "graph.h"
+#include "Header.h"
 
 int main()
 {
-	Graph g = Graph();
+	Graph* pG;
+	pG = generatePreferentialGraph(3, 0.5);
 
-	g.addEdge(1,2);
-
-	g.addEdge(2,3);
-
-	g.printEdges();
-
-	g.printVertices();
+	pG->printEdges();
+	pG->printVertices();
 
 	system("PAUSE");
 	return 0;

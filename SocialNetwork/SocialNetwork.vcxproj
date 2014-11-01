@@ -79,10 +79,12 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="graph.h" />
+    <ClInclude Include="Graph.h" />
+    <ClInclude Include="Header.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="graph.cpp" />
+    <ClCompile Include="Graph.cpp" />
+    <ClCompile Include="Preferential.cpp" />
     <ClCompile Include="SocialNetwork.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
