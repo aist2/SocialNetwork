@@ -124,3 +124,22 @@ void Graph::printVertices()
         vertices[i]->print();
 	std::cout << "===Vertices===" << std::endl;
 }
+
+std::map<unsigned long, unsigned long> Graph::computeDegreeDistribution() {
+	std::map<unsigned long, unsigned long> resultMap;
+	for (unsigned i = 0; i < vertices.size(); i++) {
+		resultMap[vertices[i]->getEdgeSize()]++;
+	}
+	return resultMap;
+}
+
+void Graph::printDegreeDistribution() {
+	std::map<unsigned long, unsigned long> result = computeDegreeDistribution();
+	std::map<unsigned long, unsigned long>::iterator iter;
+
+	for ( iter=result.begin(); iter != result.end(); ++iter )
+		std::cout << iter->first << '\t' << iter->second << '\n';
+	std::cout << "===Degree Distribution===" << std::endl;
+	std::cout << "Degree\tCount" << std::endl;
+	std::cout << "===Degree Distribution===" << std::endl;
+}

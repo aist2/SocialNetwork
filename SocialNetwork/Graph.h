@@ -9,6 +9,7 @@
 #include <math.h>
 #include <limits.h>
 #include <vector>
+#include <map>
 
 class Edge;
 
@@ -48,6 +49,11 @@ public:
 	Vertex* getVertexByIndex(int);
 	void printEdges();
 	void printVertices();
+
+	std::map<unsigned long, unsigned long> computeDegreeDistribution();
+	void printDegreeDistribution();
+	long computeNumTriangles();
+	long computeDiameter();
 
 private:
 	std::vector <Edge*> edges;
