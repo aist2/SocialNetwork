@@ -74,6 +74,7 @@ Graph* readRealGraph(std::string path, char delim) {
 	std::string line;
 	std::ifstream file(path);
 	std::string str;
+	clock_t timeElapsed = clock();
 	Graph* pG = new Graph();
 	while (getline(file, str)) {
 		std::vector<std::string> vertices = split(str, delim);
@@ -81,7 +82,7 @@ Graph* readRealGraph(std::string path, char delim) {
 		int id_v2 = atoi(vertices.at(1).c_str());
 		pG->addEdge(id_v1,id_v2);
 	}
-
-	std::cout << "Reading Graph DONE" << std::endl;
+	timeElapsed = clock() - timeElapsed;
+	std::cout << "Reading Graph DONE; time taken:" << ((float)timeElapsed)/CLOCKS_PER_SEC << " second(s)\n";
 	return pG;
 }

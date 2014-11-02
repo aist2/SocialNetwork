@@ -10,8 +10,9 @@
 #include <math.h>
 #include <vector>
 #include <map>
+#include <time.h>
 #include <ctime>
-
+#include <tuple>
 //Graph
 class Edge;
 
@@ -25,6 +26,7 @@ public:
 	Vertex(int);
 	~Vertex();
 	int getEdgeSize();
+	bool existEdgeTo(int v2);
 	void print();
 };
 
@@ -53,7 +55,7 @@ public:
 	void printVertices();
 
 	std::map<unsigned long, unsigned long> computeDegreeDistribution();
-	void printDegreeDistribution();
+	std::vector <std::tuple<int,int,int>> getAllTriangles_brutal(); // find all triangles by testing each vertex and its adjacent vetices. Complexity: O power 3
 	long computeNumTriangles();
 	long computeDiameter();
 
@@ -75,6 +77,8 @@ bool isAddEdge(int);
 std::vector<std::string> &split(const std::string&, char, std::vector<std::string>&);
 
 std::vector<std::string> split(const std::string&, char);
+
+std::tuple<int,int,int> createTriangleNode (int , int , int );
 
 //Virus Propagate
 void virusPropagate(Graph*, int);

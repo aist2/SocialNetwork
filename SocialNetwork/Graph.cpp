@@ -23,6 +23,15 @@ void Vertex::print()
 	std::cout << std::endl;
 }
 
+bool Vertex::existEdgeTo(int idV2) {
+	for (unsigned i=0; i<edges.size(); i++) {
+		if (edges[i]->pDestV->id == idV2) {
+			return true;
+		}
+	}
+	return false;
+}
+
 Edge::Edge(Vertex* pV1, Vertex* pV2)
 {
 	pOriginV = pV1;
@@ -129,22 +138,39 @@ void Graph::printVertices()
 }
 
 std::map<unsigned long, unsigned long> Graph::computeDegreeDistribution() {
+	clock_t timeElapsed = clock();
 	std::map<unsigned long, unsigned long> resultMap;
 	for (unsigned i = 0; i < vertices.size(); i++) {
 		resultMap[vertices[i]->getEdgeSize()]++;
 	}
+	timeElapsed = clock() - timeElapsed;
+	std::cout << "Time taken to compute degree distribution: " << ((float)timeElapsed)/CLOCKS_PER_SEC << " second(s)\n";
 	return resultMap;
 }
 
-void Graph::printDegreeDistribution() {
-	std::map<unsigned long, unsigned long> result = computeDegreeDistribution();
-	std::map<unsigned long, unsigned long>::iterator iter;
-
-	std::cout << "===Degree Distribution===" << std::endl;
-	std::cout << "Degree\tCount" << std::endl;
-
-	for ( iter=result.begin(); iter != result.end(); ++iter )
-		std::cout << iter->first << '\t' << iter->second << '\n';
-	
-	std::cout << "===Degree Distribution===" << std::endl;
+std::vector<std::tuple<int, int, int>> Graph::getAllTriangles_brutal() {
+	std::vector<std::tuple<int, int, int> > triangleTuples;
+	clock_t timeElapsed = clock();
+	for (unsigned i = 0; i < vertices.size(); i++) {
+		Vertex* focalV = vertices[i];
+		std::vector<Edge*> focalEdges = focalV->edges;
+		for (unsigned j = 0; j < focalEdges.size(); j++) {
+			Vertex* secondV = focalEdges[j] -> pDestV;
+			for (unsigned k = j + 1; k < focalEdges.size(); k++) {
+				Vertex* thirdV = focalEdges[k] -> pDestV;
+				if (secondV->existEdgeTo(thirdV->id)) {
+					std::tuple<int, int, int> aNode = createTriangleNode(
+							focalV->id, secondV->id, thirdV->id);
+					if (std::find(triangleTuples.begin(), triangleTuples.end(),
+							aNode) == triangleTuples.end()) {
+						triangleTuples.push_back(aNode);
+					}
+				}
+			}
+		}
+	}
+	timeElapsed = clock() - timeElapsed;
+	std::cout << "Time taken to compute degree distribution: "
+			<< ((float) timeElapsed) / CLOCKS_PER_SEC << " second(s)\n";
+	return triangleTuples;
 }
