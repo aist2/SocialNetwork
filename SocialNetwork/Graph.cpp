@@ -163,6 +163,9 @@ std::map<unsigned long, unsigned long> Graph::computeDegreeDistribution() {
 	return resultMap;
 }
 
+/*
+ * This is a brutal force triangle-finding algorithm.. takes ages to complete using facebook_combined.txt
+ */
 std::vector<std::tuple<int, int, int>> Graph::getAllTriangles_brutal() {
 	std::vector<std::tuple<int, int, int> > triangleTuples;
 	clock_t timeElapsed = clock();
@@ -183,13 +186,18 @@ std::vector<std::tuple<int, int, int>> Graph::getAllTriangles_brutal() {
 		}
 	}
 	timeElapsed = clock() - timeElapsed;
-	std::cout << "Time taken to compute degree distribution: "
+	std::cout << "Time taken to find triangles: "
 			<< ((float) timeElapsed) / CLOCKS_PER_SEC << " second(s)\n";
 	return triangleTuples;
 }
 
 bool compareVertice(Vertex* v1, Vertex* v2) { return v1->getEdgeSize() > v2->getEdgeSize();}
 
+
+/*
+ * Refer to Algorithm 1 ¨C forward. Lists all the triangles in a graph [25, 26] in <triangles_short.pdf>
+ * This is a O(m2/3) algorithm
+ */
 std::vector <std::tuple<int,int,int>> Graph::getAllTriangles_forward() {
 	 std::sort (vertices.begin(), vertices.end(), compareVertice);
 
@@ -199,6 +207,7 @@ std::vector <std::tuple<int,int,int>> Graph::getAllTriangles_forward() {
 
 	 std::vector<std::tuple<int, int, int> > triangleTuples;
 
+	 clock_t timeElapsed = clock();
 	 for (unsigned i = 0; i < vertices.size(); i++) {
 		 Vertex* focalV = vertices[i];
 		 // for all adjacent vertices
@@ -219,7 +228,10 @@ std::vector <std::tuple<int,int,int>> Graph::getAllTriangles_forward() {
 				 secondV->nodeData.push_back(focalV->id);
 			 }
 		 }
-	 }
+	}
+	timeElapsed = clock() - timeElapsed;
+	std::cout << "Time taken to find triangles: " << ((float) timeElapsed) / CLOCKS_PER_SEC
+			<< " second(s)\n";
 	 return triangleTuples;
 }
 
