@@ -68,16 +68,20 @@ Graph* generatePreferentialGraph(int nodeSize, int prob)
 	return pG;
 }
 
-Graph* readRealGraph(std::string path) {
+Graph* readRealGraph(std::string path, char delim) {
+	std::cout << "Reading Graph..." << std::endl;
+
 	std::string line;
 	std::ifstream file(path);
 	std::string str;
 	Graph* pG = new Graph();
 	while (getline(file, str)) {
-		std::vector<std::string> vertices = split(str, ' ');
+		std::vector<std::string> vertices = split(str, delim);
 		int id_v1 = atoi(vertices.at(0).c_str());
 		int id_v2 = atoi(vertices.at(1).c_str());
 		pG->addEdge(id_v1,id_v2);
 	}
+
+	std::cout << "Reading Graph DONE" << std::endl;
 	return pG;
 }

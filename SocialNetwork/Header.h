@@ -64,7 +64,7 @@ Graph* generateRandomGraph(int, int);
 
 Graph* generatePreferentialGraph(int, int);
 
-Graph* readRealGraph(std::string);
+Graph* readRealGraph(std::string, char);
 
 bool isAddEdge(int);
 
