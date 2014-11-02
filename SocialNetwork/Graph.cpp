@@ -1,4 +1,4 @@
-#include "Graph.h"
+#include "Header.h"
 
 Vertex::Vertex(int newId)
 {
@@ -137,9 +137,11 @@ void Graph::printDegreeDistribution() {
 	std::map<unsigned long, unsigned long> result = computeDegreeDistribution();
 	std::map<unsigned long, unsigned long>::iterator iter;
 
-	for ( iter=result.begin(); iter != result.end(); ++iter )
-		std::cout << iter->first << '\t' << iter->second << '\n';
 	std::cout << "===Degree Distribution===" << std::endl;
 	std::cout << "Degree\tCount" << std::endl;
+
+	for ( iter=result.begin(); iter != result.end(); ++iter )
+		std::cout << iter->first << '\t' << iter->second << '\n';
+	
 	std::cout << "===Degree Distribution===" << std::endl;
 }

@@ -1,8 +1,4 @@
 #include "Header.h"
-#include <iostream>
-#include <cstdlib>
-#include <string>
-#include <sstream>
 
 Graph* generateRandomGraph(int nodeSize, int prob)
 {
@@ -72,28 +68,9 @@ Graph* generatePreferentialGraph(int nodeSize, int prob)
 	return pG;
 }
 
-
-
-
-std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
-    std::stringstream ss(s);
-    std::string item;
-    while (std::getline(ss, item, delim)) {
-        elems.push_back(item);
-    }
-    return elems;
-}
-
-
-std::vector<std::string> split(const std::string &s, char delim) {
-    std::vector<std::string> elems;
-    split(s, delim, elems);
-    return elems;
-}
-
-Graph* readRealGraph() {
+Graph* readRealGraph(std::string path) {
 	std::string line;
-	std::ifstream file("facebook_combined.txt");
+	std::ifstream file(path);
 	std::string str;
 	Graph* pG = new Graph();
 	while (getline(file, str)) {
