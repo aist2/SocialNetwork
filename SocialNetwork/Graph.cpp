@@ -159,10 +159,8 @@ std::vector<std::tuple<int, int, int>> Graph::getAllTriangles_brutal() {
 			for (unsigned k = j + 1; k < focalEdges.size(); k++) {
 				Vertex* thirdV = focalEdges[k] -> pDestV;
 				if (secondV->existEdgeTo(thirdV->id)) {
-					std::tuple<int, int, int> aNode = createTriangleNode(
-							focalV->id, secondV->id, thirdV->id);
-					if (std::find(triangleTuples.begin(), triangleTuples.end(),
-							aNode) == triangleTuples.end()) {
+					std::tuple<int, int, int> aNode = createTriangleNode(focalV->id, secondV->id, thirdV->id);
+					if (std::find(triangleTuples.begin(), triangleTuples.end(),aNode) == triangleTuples.end()) {
 						triangleTuples.push_back(aNode);
 					}
 				}

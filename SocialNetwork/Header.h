@@ -13,6 +13,7 @@
 #include <time.h>
 #include <ctime>
 #include <tuple>
+#include <algorithm>
 //Graph
 class Edge;
 
