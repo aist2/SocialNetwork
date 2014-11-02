@@ -23,6 +23,15 @@ void Vertex::print()
 	std::cout << std::endl;
 }
 
+bool Vertex::existEdgeTo(int idV2) {
+	for (unsigned i=0; i<edges.size(); i++) {
+		if (edges[i]->pDestV->id == idV2) {
+			return true;
+		}
+	}
+	return false;
+}
+
 Edge::Edge(Vertex* pV1, Vertex* pV2)
 {
 	pOriginV = pV1;
@@ -145,3 +154,19 @@ void Graph::printDegreeDistribution() {
 		std::cout << iter->first << '\t' << iter->second << '\n';
 	std::cout << "===Degree Distribution===" << std::endl;
 }
+
+//long Graph::computeNumTriangles_brutalForce() {
+//	for (unsigned i = 0; i < vertices.size(); i++) {
+//		Vertex* focalV = vertices[i];
+//		std::vector <Edge*> focalEdges = focalV->edges();
+//		for (unsigned j=0; j<focalEdges.size(); j++) {
+//			Vertex* secondV = focalEdges[j] -> pDestV;
+//			for (unsigned k=j+1; k<focalEdges.size(); k++) {
+//				Vertex* thirdV = focalEdges[k] -> pDestV;
+//				if (secondV->existEdgeTo(thirdV->id)) {
+//
+//				}
+//			}
+//		}
+//	}
+//}
