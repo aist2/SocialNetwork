@@ -235,3 +235,10 @@ std::vector <std::tuple<int,int,int>> Graph::getAllTriangles_forward() {
 	 return triangleTuples;
 }
 
+std::vector<Graph*> findConnectedComponents(Graph* pG) {
+
+}
+
+long computeDiameter() {
+
+}
