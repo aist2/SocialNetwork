@@ -34,7 +34,7 @@ int main(int argc, const char* argv[])
 	//pG = generatePreferentialGraph(500, 75);
 	pG = readRealGraph(argv[1], ' ');
 	//pG->printEdges();
-	pG->printVertices();
+	//pG->printVertices();
 
 	std::cout << "Number of nodes: " << pG->getVertexSize() << std::endl;
 	std::cout << "Number of edges: " << pG->getEdgeSize() << std::endl;

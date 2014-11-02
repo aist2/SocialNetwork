@@ -25,11 +25,14 @@ public:
 	int popularity;
 	std::vector <Edge*> edges;
 	std::vector <int> adj;
+	std::vector <int> nodeData; // this field is used by triangle algo only.. no need to touch it during vertex creation
 	Vertex(int);
 	~Vertex();
 	int getEdgeSize();
+	bool existEdgeTo(Vertex* v2);
 	bool existEdgeTo(int v2);
 	void print();
+	void resetNodeData();
 };
 
 class Edge
@@ -57,7 +60,7 @@ public:
 
 	std::map<long, long> computeDegreeDistribution();
 	std::vector <std::tuple<int,int,int>> getAllTriangles_brutal(); // find all triangles by testing each vertex and its adjacent vetices. Complexity: O power 3
-	long computeNumTriangles();
+	std::vector <std::tuple<int,int,int>> getAllTriangles_forward();
 	long computeDiameter();
 
 	std::vector <Edge*> edges;
