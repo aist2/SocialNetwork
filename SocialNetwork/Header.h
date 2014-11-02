@@ -54,8 +54,7 @@ public:
 	void printVertices();
 
 	std::map<unsigned long, unsigned long> computeDegreeDistribution();
-	void printDegreeDistribution();
-	long computeNumTriangles_brutalForce(); // find all triangles by testing each vertex and its adjacent vetices. Complexity: O power 3
+	std::vector <std::tuple<int,int,int>> getAllTriangles_brutal(); // find all triangles by testing each vertex and its adjacent vetices. Complexity: O power 3
 	long computeNumTriangles();
 	long computeDiameter();
 

@@ -145,28 +145,29 @@ std::map<unsigned long, unsigned long> Graph::computeDegreeDistribution() {
 	return resultMap;
 }
 
-void Graph::printDegreeDistribution() {
-	std::map<unsigned long, unsigned long> result = computeDegreeDistribution();
-	std::cout << "===Degree Distribution===" << std::endl;
-	std::cout << "Degree\tCount" << std::endl;
-	std::map<unsigned long, unsigned long>::iterator iter;
-	for ( iter=result.begin(); iter != result.end(); ++iter )
-		std::cout << iter->first << '\t' << iter->second << '\n';
-	std::cout << "===Degree Distribution===" << std::endl;
+std::vector<std::tuple<int, int, int>> Graph::getAllTriangles_brutal() {
+	std::vector<std::tuple<int, int, int> > triangleTuples;
+	clock_t timeElapsed = clock();
+	for (unsigned i = 0; i < vertices.size(); i++) {
+		Vertex* focalV = vertices[i];
+		std::vector<Edge*> focalEdges = focalV->edges;
+		for (unsigned j = 0; j < focalEdges.size(); j++) {
+			Vertex* secondV = focalEdges[j] -> pDestV;
+			for (unsigned k = j + 1; k < focalEdges.size(); k++) {
+				Vertex* thirdV = focalEdges[k] -> pDestV;
+				if (secondV->existEdgeTo(thirdV->id)) {
+					std::tuple<int, int, int> aNode = createTriangleNode(
+							focalV->id, secondV->id, thirdV->id);
+					if (std::find(triangleTuples.begin(), triangleTuples.end(),
+							aNode) == triangleTuples.end()) {
+						triangleTuples.push_back(aNode);
+					}
+				}
+			}
+		}
+	}
+	timeElapsed = clock() - timeElapsed;
+	std::cout << "Time taken to compute degree distribution: "
+			<< ((float) timeElapsed) / CLOCKS_PER_SEC << " second(s)\n";
+	return triangleTuples;
 }
-
-//long Graph::computeNumTriangles_brutalForce() {
-//	for (unsigned i = 0; i < vertices.size(); i++) {
-//		Vertex* focalV = vertices[i];
-//		std::vector <Edge*> focalEdges = focalV->edges();
-//		for (unsigned j=0; j<focalEdges.size(); j++) {
-//			Vertex* secondV = focalEdges[j] -> pDestV;
-//			for (unsigned k=j+1; k<focalEdges.size(); k++) {
-//				Vertex* thirdV = focalEdges[k] -> pDestV;
-//				if (secondV->existEdgeTo(thirdV->id)) {
-//
-//				}
-//			}
-//		}
-//	}
-//}
