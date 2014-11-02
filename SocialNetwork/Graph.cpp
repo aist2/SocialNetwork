@@ -269,6 +269,7 @@ std::vector <std::tuple<int,int,int>> Graph::getAllTriangles_forward() {
 	 return triangleTuples;
 }
 
+// helper method
 Vertex* findUnmarkedVertex(Graph* pG) {
 	for (unsigned i = 0 ; i < pG->vertices.size(); i++) {
 		if (!pG->vertices[i]->mark) {
@@ -278,6 +279,7 @@ Vertex* findUnmarkedVertex(Graph* pG) {
 	return NULL;
 }
 
+// helper method
 void dfs(Vertex* v, Graph* newG) {
 	if (!v->mark) {
 		v->mark = true;
@@ -289,6 +291,7 @@ void dfs(Vertex* v, Graph* newG) {
 	}
 }
 
+// in facebook_combined.txt, the graph is connected (only 1 component)
 std::vector<Graph*> findConnectedComponents(Graph* pG) {
 	// unmark all vertices
 	for (unsigned i = 0 ; i < pG->vertices.size(); i++) {
