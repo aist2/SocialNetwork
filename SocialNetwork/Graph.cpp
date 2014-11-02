@@ -4,6 +4,7 @@ Vertex::Vertex(int newId)
 {
 	id = newId;
 	infected = false;
+	popularity = -1;
 }
 
 Vertex::~Vertex()
@@ -114,17 +115,17 @@ Vertex* Graph::addVertex(int id)
 Vertex* Graph::findVertex(int id)
 {
 	Vertex* pV;
-//	try
-//	{
-//		pV = vertices[id];
-//		if (pV->id == id)
-//		{
-//			return pV;
-//		}
-//	}
-//	catch (...)
-//	{
-//	}
+	try
+	{
+		pV = vertices.at(id);
+		if (pV->id == id)
+		{
+			return pV;
+		}
+	}
+	catch (...)
+	{
+	}
 	for ( auto i = vertices.begin(); i != vertices.end(); i++ ) 
 	{
 		pV = *i;
@@ -152,9 +153,9 @@ void Graph::printVertices()
 	std::cout << "===Vertices===" << std::endl;
 }
 
-std::map<unsigned long, unsigned long> Graph::computeDegreeDistribution() {
+std::map<long, long> Graph::computeDegreeDistribution() {
 	clock_t timeElapsed = clock();
-	std::map<unsigned long, unsigned long> resultMap;
+	std::map<long, long> resultMap;
 	for (unsigned i = 0; i < vertices.size(); i++) {
 		resultMap[vertices[i]->getEdgeSize()]++;
 	}

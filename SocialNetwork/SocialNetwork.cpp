@@ -5,10 +5,10 @@
 /**
  * Print Functions
  */
-void printDegreeDistribution(std::map<unsigned long, unsigned long> result) {
+void printDegreeDistribution(std::map<long, long> result) {
 	std::cout << "===Degree Distribution===" << std::endl;
 	std::cout << "Degree\tCount" << std::endl;
-	std::map<unsigned long, unsigned long>::iterator iter;
+	std::map<long, long>::iterator iter;
 	for ( iter=result.begin(); iter != result.end(); ++iter )
 		std::cout << iter->first << '\t' << iter->second << '\n';
 	std::cout << "===Degree Distribution===" << std::endl;
@@ -30,8 +30,8 @@ void printTriangles(std::vector <std::tuple<int,int,int>> result) {
 int main(int argc, const char* argv[])
 {
 	Graph* pG;
-	//pG = generateRandomGraph(1000, 75);
-	//pG = generatePreferentialGraph(1000, 100);
+	//pG = generateRandomGraph(500, 75);
+	//pG = generatePreferentialGraph(500, 75);
 	pG = readRealGraph(argv[1], ' ');
 	//pG->printEdges();
 	//pG->printVertices();
@@ -39,9 +39,10 @@ int main(int argc, const char* argv[])
 	std::cout << "Number of nodes: " << pG->getVertexSize() << std::endl;
 	std::cout << "Number of edges: " << pG->getEdgeSize() << std::endl;
 
-//	printDegreeDistribution(pG->computeDegreeDistribution());
-	std::vector <std::tuple<int,int,int>> triangles = pG->getAllTriangles_forward();
-	printTriangles(triangles);
+	//printDegreeDistribution(pG->computeDegreeDistribution());
+	//std::vector <std::tuple<int,int,int>> triangles = pG->getAllTriangles_brutal();
+	//printTriangles(triangles);
+	//printDegreeDistribution(computePopularity(pG));
 	//system("PAUSE");
 	return 0;
 }

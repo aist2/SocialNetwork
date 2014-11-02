@@ -22,6 +22,7 @@ class Vertex
 public:
 	int id;
 	bool infected;
+	int popularity;
 	std::vector <Edge*> edges;
 	std::vector <int> adj;
 	std::vector <int> nodeData; // this field is used by triangle algo only.. no need to touch it during vertex creation
@@ -57,12 +58,11 @@ public:
 	void printEdges();
 	void printVertices();
 
-	std::map<unsigned long, unsigned long> computeDegreeDistribution();
+	std::map<long, long> computeDegreeDistribution();
 	std::vector <std::tuple<int,int,int>> getAllTriangles_brutal(); // find all triangles by testing each vertex and its adjacent vetices. Complexity: O power 3
 	std::vector <std::tuple<int,int,int>> getAllTriangles_forward();
 	long computeDiameter();
 
-private:
 	std::vector <Edge*> edges;
 	std::vector <Vertex*> vertices;
 };
@@ -84,10 +84,12 @@ std::vector<std::string> split(const std::string&, char);
 std::tuple<int,int,int> createTriangleNode (int , int , int );
 
 //Virus Propagate
-void virusPropagate(Graph*, int);
+int virusPropagate(Graph*, int);
 
 void infectIt(Vertex*, std::vector <Vertex*> *);
 
 Vertex* pickOneFriend(Vertex*);
 
 Vertex* randomPick(std::vector <Vertex*>*);
+
+std::map<long, long> computePopularity(Graph*);
