@@ -1,9 +1,40 @@
 Reading Graph...
 Reading Graph DONE
-Number of nodes: 7
-Number of edges: 5
+===Edges===
+0, 1
+1, 2
+2, 3
+0, 4
+0, 5
+9, 10
+===Edges===
+===Vertices===
+id: 0; degree: 3
+id: 1; degree: 2
+id: 2; degree: 2
+id: 3; degree: 1
+id: 4; degree: 1
+id: 5; degree: 1
+id: 9; degree: 1
+id: 10; degree: 1
+===Vertices===
+Number of nodes: 8
+Number of edges: 6
 ===Degree Distribution===
 Degree	Count
-1	6
-4	1
+1	5
+2	2
+3	1
 ===Degree Distribution===
+Virus propagating...
+Infecting 1
+Round 1
+Infecting 0
+Round 2
+Infecting 2
+Infecting 4
+Round 3
+Infecting 5
+Infecting 3
+Round 4
+Virus propagating DONE

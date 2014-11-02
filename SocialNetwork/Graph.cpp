@@ -3,7 +3,7 @@
 Vertex::Vertex(int newId)
 {
 	id = newId;
-	visited = false;
+	infected = false;
 }
 
 Vertex::~Vertex()
@@ -19,7 +19,7 @@ int Vertex::getEdgeSize()
 void Vertex::print()
 {
 	std::cout << "id: " << id;
-	std::cout << "; size of edges: " << getEdgeSize();
+	std::cout << "; degree: " << getEdgeSize();
 	std::cout << std::endl;
 }
 
@@ -94,14 +94,17 @@ Vertex* Graph::addVertex(int id)
 
 Vertex* Graph::findVertex(int id)
 {
-	Vertex* pV = NULL;
+	Vertex* pV;
 
-	for (unsigned i=0; i < vertices.size(); i++)
+	for ( auto i = vertices.begin(); i != vertices.end(); i++ ) 
 	{
-		if(vertices[i]->id==id)
-			pV = vertices[i];
+		pV = *i;
+		if(pV->id==id)
+		{
+			return pV;
+		}	
 	}
-	return pV;
+	return NULL;
 }
 
 Vertex* Graph::getVertexByIndex(int i)

@@ -10,14 +10,16 @@
 #include <math.h>
 #include <vector>
 #include <map>
+#include <ctime>
 
+//Graph
 class Edge;
 
 class Vertex
 {
 public:
 	int id;
-	bool visited;
+	bool infected;
 	std::vector <Edge*> edges;
 
 	Vertex(int);
@@ -60,15 +62,25 @@ private:
 	std::vector <Vertex*> vertices;
 };
 
+// Generate Graph
 Graph* generateRandomGraph(int, int);
 
 Graph* generatePreferentialGraph(int, int);
 
 Graph* readRealGraph(std::string, char);
 
+//Util
 bool isAddEdge(int);
 
 std::vector<std::string> &split(const std::string&, char, std::vector<std::string>&);
 
 std::vector<std::string> split(const std::string&, char);
 
+//Virus Propagate
+void virusPropagate(Graph*, int);
+
+void infectIt(Vertex*, std::vector <Vertex*> *);
+
+Vertex* pickOneFriend(Vertex*);
+
+Vertex* randomPick(std::vector <Vertex*>*);
