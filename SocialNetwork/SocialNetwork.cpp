@@ -38,8 +38,8 @@ int main(int argc, const char* argv[])
 	std::cout << "Number of nodes: " << pG->getVertexSize() << std::endl;
 	std::cout << "Number of edges: " << pG->getEdgeSize() << std::endl;
 
-	std::vector <std::tuple<int,int,int>> triangles = pG->getAllTriangles_brutal();
-	printTriangles(triangles);
+	//std::vector <std::tuple<int,int,int>> triangles = pG->getAllTriangles_brutal();
+	//printTriangles(triangles);
 	//system("PAUSE");
 	return 0;
 }
