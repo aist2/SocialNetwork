@@ -196,7 +196,7 @@ bool compareVertice(Vertex* v1, Vertex* v2) { return v1->getEdgeSize() > v2->get
 
 /*
  * Refer to Algorithm 1 ¨C forward. Lists all the triangles in a graph [25, 26] in <triangles_short.pdf>
- * This is a O(m2/3) algorithm
+ * This is a O(m3/2) algorithm
  */
 std::vector <std::tuple<int,int,int>> Graph::getAllTriangles_forward() {
 	 std::sort (vertices.begin(), vertices.end(), compareVertice);
