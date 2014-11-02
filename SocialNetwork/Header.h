@@ -10,6 +10,7 @@
 #include <math.h>
 #include <vector>
 #include <map>
+#include <time.h>
 
 class Edge;
 
@@ -52,6 +53,7 @@ public:
 
 	std::map<unsigned long, unsigned long> computeDegreeDistribution();
 	void printDegreeDistribution();
+	long computeNumTriangles_brutalForce();
 	long computeNumTriangles();
 	long computeDiameter();
 
@@ -71,4 +73,3 @@ bool isAddEdge(int);
 std::vector<std::string> &split(const std::string&, char, std::vector<std::string>&);
 
 std::vector<std::string> split(const std::string&, char);
-

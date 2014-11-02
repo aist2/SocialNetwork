@@ -126,22 +126,22 @@ void Graph::printVertices()
 }
 
 std::map<unsigned long, unsigned long> Graph::computeDegreeDistribution() {
+	clock_t timeElapsed = clock();
 	std::map<unsigned long, unsigned long> resultMap;
 	for (unsigned i = 0; i < vertices.size(); i++) {
 		resultMap[vertices[i]->getEdgeSize()]++;
 	}
+	timeElapsed = clock() - timeElapsed;
+	std::cout << "Time taken to compute degree distribution: " << ((float)timeElapsed)/CLOCKS_PER_SEC << " second(s)\n";
 	return resultMap;
 }
 
 void Graph::printDegreeDistribution() {
 	std::map<unsigned long, unsigned long> result = computeDegreeDistribution();
-	std::map<unsigned long, unsigned long>::iterator iter;
-
 	std::cout << "===Degree Distribution===" << std::endl;
 	std::cout << "Degree\tCount" << std::endl;
-
+	std::map<unsigned long, unsigned long>::iterator iter;
 	for ( iter=result.begin(); iter != result.end(); ++iter )
 		std::cout << iter->first << '\t' << iter->second << '\n';
-	
 	std::cout << "===Degree Distribution===" << std::endl;
 }
