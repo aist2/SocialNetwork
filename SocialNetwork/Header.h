@@ -24,7 +24,7 @@ public:
 	bool infected;
 	std::vector <Edge*> edges;
 	std::vector <int> adj;
-	std::vector <int> nodeData;
+	std::vector <int> nodeData; // this field is used by triangle algo only.. no need to touch it during vertex creation
 	Vertex(int);
 	~Vertex();
 	int getEdgeSize();
