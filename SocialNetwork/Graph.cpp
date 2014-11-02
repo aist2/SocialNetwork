@@ -23,13 +23,21 @@ void Vertex::print()
 	std::cout << std::endl;
 }
 
-bool Vertex::existEdgeTo(int idV2) {
+bool Vertex::existEdgeTo(Vertex* v2) {
 	for (unsigned i=0; i<edges.size(); i++) {
-		if (edges[i]->pDestV->id == idV2) {
+		if (edges[i]->pDestV->id == v2->id) {
 			return true;
 		}
 	}
 	return false;
+}
+
+bool Vertex::existEdgeTo(int idV2) {
+		return std::find(adj.begin(), adj.end(), idV2) != adj.end();
+}
+
+void Vertex::resetNodeData(){
+	nodeData.clear();
 }
 
 Edge::Edge(Vertex* pV1, Vertex* pV2)
@@ -106,17 +114,17 @@ Vertex* Graph::addVertex(int id)
 Vertex* Graph::findVertex(int id)
 {
 	Vertex* pV;
-	try
-	{
-		pV = vertices[id];
-		if (pV->id == id)
-		{
-			return pV;
-		}
-	}
-	catch (...)
-	{
-	}
+//	try
+//	{
+//		pV = vertices[id];
+//		if (pV->id == id)
+//		{
+//			return pV;
+//		}
+//	}
+//	catch (...)
+//	{
+//	}
 	for ( auto i = vertices.begin(); i != vertices.end(); i++ ) 
 	{
 		pV = *i;
@@ -179,3 +187,39 @@ std::vector<std::tuple<int, int, int>> Graph::getAllTriangles_brutal() {
 			<< ((float) timeElapsed) / CLOCKS_PER_SEC << " second(s)\n";
 	return triangleTuples;
 }
+
+bool compareVertice(Vertex* v1, Vertex* v2) { return v1->getEdgeSize() > v2->getEdgeSize();}
+
+std::vector <std::tuple<int,int,int>> Graph::getAllTriangles_forward() {
+	 std::sort (vertices.begin(), vertices.end(), compareVertice);
+
+	 for (unsigned i = 0; i < vertices.size(); i++) {
+		 vertices[i]->resetNodeData();
+	 }
+
+	 std::vector<std::tuple<int, int, int> > triangleTuples;
+
+	 for (unsigned i = 0; i < vertices.size(); i++) {
+		 Vertex* focalV = vertices[i];
+		 // for all adjacent vertices
+		 for (unsigned j = 0; j < focalV->edges.size(); j++) {
+			 Vertex* secondV = focalV->edges[j]->pDestV;
+			 // only consider smaller degree nodes
+			 // if nodes are of same degree, only consider node with larger id
+			 if ((secondV->getEdgeSize() < focalV->getEdgeSize()) ||
+				 (secondV->getEdgeSize() == focalV->getEdgeSize() && focalV->id < secondV->id)){
+				 // Add common element in nodeData to triangle
+				 std::vector<int> result;
+				 std::set_intersection (focalV->nodeData.begin(), focalV->nodeData.end(), secondV->nodeData.begin(), secondV->nodeData.end(), back_inserter(result));
+				 for (unsigned k=0; k<result.size(); k++) {
+					 std::tuple<int, int, int> aNode = createTriangleNode(focalV->id, secondV->id, result[k]);
+					 triangleTuples.push_back(aNode);
+				 }
+				 // Add focalV into the nodeData of secondV
+				 secondV->nodeData.push_back(focalV->id);
+			 }
+		 }
+	 }
+	 return triangleTuples;
+}
+

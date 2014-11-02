@@ -24,11 +24,14 @@ public:
 	bool infected;
 	std::vector <Edge*> edges;
 	std::vector <int> adj;
+	std::vector <int> nodeData;
 	Vertex(int);
 	~Vertex();
 	int getEdgeSize();
+	bool existEdgeTo(Vertex* v2);
 	bool existEdgeTo(int v2);
 	void print();
+	void resetNodeData();
 };
 
 class Edge
@@ -56,7 +59,7 @@ public:
 
 	std::map<unsigned long, unsigned long> computeDegreeDistribution();
 	std::vector <std::tuple<int,int,int>> getAllTriangles_brutal(); // find all triangles by testing each vertex and its adjacent vetices. Complexity: O power 3
-	long computeNumTriangles();
+	std::vector <std::tuple<int,int,int>> getAllTriangles_forward();
 	long computeDiameter();
 
 private:
