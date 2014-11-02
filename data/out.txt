@@ -1,40 +1,39 @@
-Reading Graph...
-Reading Graph DONE
-===Edges===
-0, 1
-1, 2
-2, 3
-0, 4
-0, 5
-9, 10
-===Edges===
-===Vertices===
-id: 0; degree: 3
-id: 1; degree: 2
-id: 2; degree: 2
-id: 3; degree: 1
-id: 4; degree: 1
-id: 5; degree: 1
-id: 9; degree: 1
-id: 10; degree: 1
-===Vertices===
-Number of nodes: 8
-Number of edges: 6
+Generating Preferential Graph...
+Generating Preferential Graph DONE
+Number of nodes: 1000
+Number of edges: 1054
+Time taken to compute degree distribution: 0.003 second(s)
 ===Degree Distribution===
 Degree	Count
-1	5
-2	2
-3	1
+0	332
+1	376
+2	190
+3	48
+4	15
+5	6
+6	2
+7	1
+9	1
+10	1
+11	1
+12	1
+13	1
+14	4
+15	3
+17	1
+18	2
+19	1
+35	1
+37	2
+38	1
+41	1
+47	1
+54	1
+59	1
+68	1
+69	1
+80	1
+93	1
+99	1
+114	1
 ===Degree Distribution===
-Virus propagating...
-Infecting 1
-Round 1
-Infecting 0
-Round 2
-Infecting 2
-Infecting 4
-Round 3
-Infecting 5
-Infecting 3
-Round 4
-Virus propagating DONE

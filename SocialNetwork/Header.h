@@ -23,7 +23,7 @@ public:
 	int id;
 	bool infected;
 	std::vector <Edge*> edges;
-
+	std::vector <int> adj;
 	Vertex(int);
 	~Vertex();
 	int getEdgeSize();
@@ -51,7 +51,6 @@ public:
 	Edge* addEdge(int,int);
 	Vertex* addVertex(int);
 	Vertex* findVertex(int);
-	Vertex* getVertexByIndex(int);
 	void printEdges();
 	void printVertices();
 

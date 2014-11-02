@@ -91,6 +91,8 @@ Edge* Graph::addEdge(int id1, int id2)
 	pV1->edges.push_back(pE1);
 	pV2->edges.push_back(pE2);
 	
+	pV1->adj.push_back(id2);
+	pV2->adj.push_back(id1);
 	return pE1;
 }
 
@@ -104,7 +106,17 @@ Vertex* Graph::addVertex(int id)
 Vertex* Graph::findVertex(int id)
 {
 	Vertex* pV;
-
+	try
+	{
+		pV = vertices[id];
+		if (pV->id == id)
+		{
+			return pV;
+		}
+	}
+	catch (...)
+	{
+	}
 	for ( auto i = vertices.begin(); i != vertices.end(); i++ ) 
 	{
 		pV = *i;
@@ -114,11 +126,6 @@ Vertex* Graph::findVertex(int id)
 		}	
 	}
 	return NULL;
-}
-
-Vertex* Graph::getVertexByIndex(int i)
-{
-	return vertices[i];;
 }
 
 void Graph::printEdges()

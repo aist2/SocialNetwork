@@ -44,7 +44,7 @@ Graph* generatePreferentialGraph(int nodeSize, int prob)
 		pVI = pG->addVertex(i);
 		for (int j = 0; j < i; j++)
 		{
-			pVJ = pG->getVertexByIndex(j);
+			pVJ = pG->findVertex(j);
 			degree = pVJ->getEdgeSize();
 			if (sumDegree != 0)
 			{

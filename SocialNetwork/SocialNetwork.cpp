@@ -30,14 +30,16 @@ void printTriangles(std::vector <std::tuple<int,int,int>> result) {
 int main(int argc, const char* argv[])
 {
 	Graph* pG;
-	//pG = generatePreferentialGraph(1000, 100);
-	pG = readRealGraph(argv[1], ' ');
+	//pG = generateRandomGraph(1000, 75);
+	pG = generatePreferentialGraph(1000, 100);
+	//pG = readRealGraph(argv[1], ' ');
 	//pG->printEdges();
 	//pG->printVertices();
 
 	std::cout << "Number of nodes: " << pG->getVertexSize() << std::endl;
 	std::cout << "Number of edges: " << pG->getEdgeSize() << std::endl;
 
+	printDegreeDistribution(pG->computeDegreeDistribution());
 	//std::vector <std::tuple<int,int,int>> triangles = pG->getAllTriangles_brutal();
 	//printTriangles(triangles);
 	//system("PAUSE");
