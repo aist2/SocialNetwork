@@ -23,6 +23,7 @@ public:
 	int id;
 	bool infected;
 	int popularity;
+	bool mark; //used by dfs
 	std::vector <Edge*> edges;
 	std::vector <int> adj;
 	std::vector <int> nodeData; // this field is used by triangle algo only.. no need to touch it during vertex creation
@@ -53,10 +54,12 @@ public:
 	int getVertexSize();
 	int getEdgeSize();
 	Edge* addEdge(int,int);
+	Edge* addEdgeD(int,int);
 	Vertex* addVertex(int);
 	Vertex* findVertex(int);
 	void printEdges();
 	void printVertices();
+	Graph* shallowCopy();
 
 	std::map<long, long> computeDegreeDistribution();
 	std::vector <std::tuple<int,int,int>> getAllTriangles_brutal(); // find all triangles by testing each vertex and its adjacent vetices. Complexity: O power 3
@@ -93,3 +96,6 @@ Vertex* pickOneFriend(Vertex*);
 Vertex* randomPick(std::vector <Vertex*>*);
 
 std::map<long, long> computePopularity(Graph*);
+
+//Triangle, Diameter and connected component
+std::vector<Graph*> findConnectedComponents(Graph* pG);

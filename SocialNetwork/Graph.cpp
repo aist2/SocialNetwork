@@ -105,6 +105,32 @@ Edge* Graph::addEdge(int id1, int id2)
 	return pE1;
 }
 
+Edge* Graph::addEdgeD(int id1, int id2)
+{
+	Vertex* pV1;
+	Vertex* pV2;
+
+	pV1 = findVertex(id1);
+	if (pV1 == NULL)
+	{
+		pV1=new Vertex(id1);
+		vertices.push_back(pV1);
+	}
+
+	pV2 = findVertex(id2);
+	if (pV2 == NULL)
+	{
+		pV2 = new Vertex(id2);
+		vertices.push_back(pV2);
+	}
+
+	Edge* pE1 = new Edge(pV1,pV2);
+	edges.push_back(pE1);
+	pV1->edges.push_back(pE1);
+	pV1->adj.push_back(id2);
+	return pE1;
+}
+
 Vertex* Graph::addVertex(int id)
 {
 	Vertex* pV = new Vertex(id);
@@ -115,17 +141,17 @@ Vertex* Graph::addVertex(int id)
 Vertex* Graph::findVertex(int id)
 {
 	Vertex* pV;
-	try
-	{
-		pV = vertices.at(id);
-		if (pV->id == id)
-		{
-			return pV;
-		}
-	}
-	catch (...)
-	{
-	}
+//	try
+//	{
+//		pV = vertices.at(id);
+//		if (pV->id == id)
+//		{
+//			return pV;
+//		}
+//	}
+//	catch (...)
+//	{
+//	}
 	for ( auto i = vertices.begin(); i != vertices.end(); i++ ) 
 	{
 		pV = *i;
@@ -139,10 +165,10 @@ Vertex* Graph::findVertex(int id)
 
 void Graph::printEdges()
 {
-	std::cout << "===Edges===" << std::endl;
+//	std::cout << "===Edges===" << std::endl;
 	for (unsigned i = 0; i < edges.size(); i++)
         edges[i]->print();
-	std::cout << "===Edges===" << std::endl;
+//	std::cout << "===Edges===" << std::endl;
 }
 
 void Graph::printVertices()
@@ -151,6 +177,13 @@ void Graph::printVertices()
 	for (unsigned i = 0; i < vertices.size(); i++)
         vertices[i]->print();
 	std::cout << "===Vertices===" << std::endl;
+}
+
+Graph* Graph::shallowCopy(){
+	Graph* newG = new Graph();
+	newG->edges = edges;
+	newG->vertices = vertices;
+	return newG;
 }
 
 std::map<long, long> Graph::computeDegreeDistribution() {
@@ -236,10 +269,40 @@ std::vector <std::tuple<int,int,int>> Graph::getAllTriangles_forward() {
 	 return triangleTuples;
 }
 
+Vertex* findUnmarkedVertex(Graph* pG) {
+	for (unsigned i = 0 ; i < pG->vertices.size(); i++) {
+		if (!pG->vertices[i]->mark) {
+			return pG->vertices[i];
+		}
+	}
+	return NULL;
+}
+
+void dfs(Vertex* v, Graph* newG) {
+	if (!v->mark) {
+		v->mark = true;
+		for (unsigned i=0; i<v->edges.size(); i++) {
+			Vertex* v2 = v->edges[i]->pDestV;
+			newG->addEdgeD(v->id, v2->id);
+			dfs(v2, newG);
+		}
+	}
+}
+
 std::vector<Graph*> findConnectedComponents(Graph* pG) {
-
+	// unmark all vertices
+	for (unsigned i = 0 ; i < pG->vertices.size(); i++) {
+		pG->vertices[i]->mark = false;
+	}
+	std::vector<Graph*> result;
+	// Keep dfs until copyG's vertices becomes 0
+	Vertex* currV = findUnmarkedVertex(pG);
+	while (currV != NULL) {
+		Graph* newG = new Graph();
+		dfs(currV, newG);
+		currV = findUnmarkedVertex(pG);
+		result.push_back(newG);
+	}
+	return result;
 }
 
-long computeDiameter() {
-
-}
