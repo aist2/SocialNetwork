@@ -15,6 +15,8 @@
 #include <tuple>
 #include <algorithm>
 #include <queue>
+#include <unordered_map>
+
 //Graph
 class Edge;
 
@@ -57,6 +59,7 @@ public:
 	Edge* addEdge(int,int);
 	Vertex* addVertex(int);
 	Vertex* findVertex(int);
+	Edge* findEdge(Vertex*,Vertex*);
 	void printEdges();
 	void printVertices();
 	Graph* shallowCopy();
@@ -68,6 +71,8 @@ public:
 
 	std::vector <Edge*> edges;
 	std::vector <Vertex*> vertices;
+	std::unordered_map<int, Vertex*> vertexMap;
+	std::unordered_map<std::string, Edge*> edgeMap;
 };
 
 // Generate Graph

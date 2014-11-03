@@ -77,6 +77,7 @@ Graph* readRealGraph(std::string path, char delim) {
 	clock_t timeElapsed = clock();
 	Graph* pG = new Graph();
 	while (getline(file, str)) {
+		//std::cout << "Reading new row..." << std::endl;
 		std::vector<std::string> vertices = split(str, delim);
 		int id_v1 = atoi(vertices.at(0).c_str());
 		int id_v2 = atoi(vertices.at(1).c_str());
