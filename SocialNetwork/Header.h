@@ -17,6 +17,7 @@
 #include <queue>
 #include <unordered_map>
 
+
 //Graph
 class Edge;
 
@@ -88,6 +89,8 @@ bool isAddEdge(int);
 std::vector<std::string> &split(const std::string&, char, std::vector<std::string>&);
 
 std::vector<std::string> split(const std::string&, char);
+
+std::string int_to_string(int i);
 
 std::tuple<int,int,int> createTriangleNode (int , int , int );
 

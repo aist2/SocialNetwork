@@ -97,7 +97,7 @@ Vertex* randomPick(std::vector <Vertex*>* pVector)
 std::map<long, long> computePopularity(Graph* pG) {
 	clock_t timeElapsed = clock();
 	std::map<long, long> resultMap;
-	int popularity;
+	//int popularity;
 
 	for ( auto i = pG->vertices.begin(); i != pG->vertices.end(); i++ ) 
 	{

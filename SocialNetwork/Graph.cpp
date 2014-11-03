@@ -75,6 +75,8 @@ int Graph::getEdgeSize()
 	return edges.size();
 }
 
+
+
 Edge* Graph::addEdge(int id1, int id2)
 {
 	Vertex* pV1;
@@ -121,7 +123,7 @@ Edge* Graph::addEdge(int id1, int id2)
 		pV1->adj.push_back(id2);
 		pV2->adj.push_back(id1);
 
-		std::string key = std::to_string(id1) + "," + std::to_string(id2);
+		std::string key = int_to_string(id1) + "," + int_to_string(id2);
 		edgeMap[key] = pE1;
 	}
 	return pE1;
@@ -146,7 +148,7 @@ Vertex* Graph::findVertex(int id)
 
 Edge* Graph::findEdge(Vertex* pV1,Vertex* pV2)
 {
-	Edge* pE;
+	//Edge* pE;
 
 	int id1 = pV1->id;
 	int id2 = pV2->id;
@@ -160,7 +162,7 @@ Edge* Graph::findEdge(Vertex* pV1,Vertex* pV2)
 		id1 = temp;
 	}
 
-	key = std::to_string(id1) + "," + std::to_string(id2);
+	key = int_to_string(id1) + "," + int_to_string(id2);
 
 	std::unordered_map<std::string,Edge*>::const_iterator iter = edgeMap.find(key);
 	if ( iter == edgeMap.end() )
