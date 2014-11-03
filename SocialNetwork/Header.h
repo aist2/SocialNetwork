@@ -105,3 +105,5 @@ std::map<long, long> computePopularity(Graph*);
 //Triangle, Diameter and connected component
 std::vector<Graph*> findConnectedComponentsDFS(Graph* pG);
 std::vector<Graph*> findConnectedComponentsBFS(Graph* pG);
+
+long computeDiameter(Graph* pG, int s);

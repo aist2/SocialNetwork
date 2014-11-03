@@ -193,6 +193,15 @@ Graph* Graph::shallowCopy(){
 	return newG;
 }
 
+
+//////////////////////////////////////////////////
+/** Triangle, Diameter and connected component **/
+//////////////////////////////////////////////////
+
+////////////////
+/** Triangle **/
+////////////////
+
 std::map<long, long> Graph::computeDegreeDistribution() {
 	clock_t timeElapsed = clock();
 	std::map<long, long> resultMap;
@@ -276,9 +285,9 @@ std::vector <std::tuple<int,int,int>> Graph::getAllTriangles_forward() {
 	 return triangleTuples;
 }
 
-//////////////////////////////////////////////////
-/** Triangle, Diameter and connected component **/
-//////////////////////////////////////////////////
+////////////////////////////////////////
+/** Connected Component and traverse **/
+////////////////////////////////////////
 
 // helper method
 Vertex* findUnmarkedVertex(Graph* pG) {
@@ -309,6 +318,7 @@ std::vector<Graph*> findConnectedComponentsDFS(Graph* pG) {
 		pG->vertices[i]->mark = false;
 	}
 	std::vector<Graph*> result;
+	clock_t timeElapsed = clock();
 	// Keep dfs until all of pG's vertices are marked
 	Vertex* currV = findUnmarkedVertex(pG);
 	while (currV != NULL) {
@@ -317,6 +327,9 @@ std::vector<Graph*> findConnectedComponentsDFS(Graph* pG) {
 		currV = findUnmarkedVertex(pG);
 		result.push_back(newG);
 	}
+	timeElapsed = clock() - timeElapsed;
+	std::cout << "Time taken to dfs: " << ((float) timeElapsed) / CLOCKS_PER_SEC
+				<< " second(s)\n";
 	return result;
 }
 
@@ -352,6 +365,7 @@ std::vector<Graph*> findConnectedComponentsBFS(Graph* pG) {
 		pG->vertices[i]->mark = false;
 	}
 	std::vector<Graph*> result;
+	clock_t timeElapsed = clock();
 	// Keep dfs until copyG's vertices becomes 0
 	Vertex* currV = findUnmarkedVertex(pG);
 	while (currV != NULL) {
@@ -360,6 +374,17 @@ std::vector<Graph*> findConnectedComponentsBFS(Graph* pG) {
 		currV = findUnmarkedVertex(pG);
 		result.push_back(newG);
 	}
+	timeElapsed = clock() - timeElapsed;
+	std::cout << "Time taken to bfs: " << ((float) timeElapsed) / CLOCKS_PER_SEC
+					<< " second(s)\n";
 	return result;
 }
 
+
+////////////////
+/** Diameter **/
+////////////////
+//larger s: more accuracy, more time
+long computeDiameter(Graph* pG, int s) {
+	return  1;
+}
