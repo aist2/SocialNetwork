@@ -116,17 +116,17 @@ Vertex* Graph::addVertex(int id)
 Vertex* Graph::findVertex(int id)
 {
 	Vertex* pV;
-//	try
-//	{
-//		pV = vertices.at(id);
-//		if (pV->id == id)
-//		{
-//			return pV;
-//		}
-//	}
-//	catch (...)
-//	{
-//	}
+	try
+	{
+		pV = vertices.at(id);
+		if (pV->id == id)
+		{
+			return pV;
+		}
+	}
+	catch (...)
+	{
+	}
 	for ( auto i = vertices.begin(); i != vertices.end(); i++ ) 
 	{
 		pV = *i;
@@ -299,10 +299,17 @@ void bfs(Vertex* v, Graph* newG) {
 			neighbours.push(v2);
 		}
 	}
-	for (unsigned j = 0 ; j < neighbours.size(); j++) {
+	while (!neighbours.empty()) {
 		Vertex* v3 = neighbours.front();
 		neighbours.pop();
-		bfs(v3, newG);
+		for (unsigned i = 0; i < v3->edges.size(); i++) {
+			v3->mark = true;
+			Vertex* v4 = v3->edges[i]->pDestV;
+			if (!v4->mark) {
+				newG->addEdge(v->id, v4->id);
+				neighbours.push(v4);
+			}
+		}
 	}
 }
 
