@@ -14,6 +14,7 @@
 #include <ctime>
 #include <tuple>
 #include <algorithm>
+#include <queue>
 //Graph
 class Edge;
 
@@ -54,7 +55,6 @@ public:
 	int getVertexSize();
 	int getEdgeSize();
 	Edge* addEdge(int,int);
-	Edge* addEdgeD(int,int);
 	Vertex* addVertex(int);
 	Vertex* findVertex(int);
 	void printEdges();
@@ -62,7 +62,7 @@ public:
 	Graph* shallowCopy();
 
 	std::map<long, long> computeDegreeDistribution();
-	std::vector <std::tuple<int,int,int>> getAllTriangles_brutal(); // find all triangles by testing each vertex and its adjacent vetices. Complexity: O power 3
+	std::vector<std::tuple<int,int,int>> getAllTriangles_brutal(); // find all triangles by testing each vertex and its adjacent vetices. Complexity: O power 3
 	std::vector <std::tuple<int,int,int>> getAllTriangles_forward();
 	long computeDiameter();
 
@@ -98,4 +98,5 @@ Vertex* randomPick(std::vector <Vertex*>*);
 std::map<long, long> computePopularity(Graph*);
 
 //Triangle, Diameter and connected component
-std::vector<Graph*> findConnectedComponents(Graph* pG);
+std::vector<Graph*> findConnectedComponentsDFS(Graph* pG);
+std::vector<Graph*> findConnectedComponentsBFS(Graph* pG);

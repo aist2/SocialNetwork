@@ -106,32 +106,6 @@ Edge* Graph::addEdge(int id1, int id2)
 	return pE1;
 }
 
-Edge* Graph::addEdgeD(int id1, int id2)
-{
-	Vertex* pV1;
-	Vertex* pV2;
-
-	pV1 = findVertex(id1);
-	if (pV1 == NULL)
-	{
-		pV1=new Vertex(id1);
-		vertices.push_back(pV1);
-	}
-
-	pV2 = findVertex(id2);
-	if (pV2 == NULL)
-	{
-		pV2 = new Vertex(id2);
-		vertices.push_back(pV2);
-	}
-
-	Edge* pE1 = new Edge(pV1,pV2);
-	edges.push_back(pE1);
-	pV1->edges.push_back(pE1);
-	pV1->adj.push_back(id2);
-	return pE1;
-}
-
 Vertex* Graph::addVertex(int id)
 {
 	Vertex* pV = new Vertex(id);
@@ -270,6 +244,10 @@ std::vector <std::tuple<int,int,int>> Graph::getAllTriangles_forward() {
 	 return triangleTuples;
 }
 
+//////////////////////////////////////////////////
+/** Triangle, Diameter and connected component **/
+//////////////////////////////////////////////////
+
 // helper method
 Vertex* findUnmarkedVertex(Graph* pG) {
 	for (unsigned i = 0 ; i < pG->vertices.size(); i++) {
@@ -282,18 +260,18 @@ Vertex* findUnmarkedVertex(Graph* pG) {
 
 // helper method
 void dfs(Vertex* v, Graph* newG) {
-	if (!v->mark) {
-		v->mark = true;
-		for (unsigned i=0; i<v->edges.size(); i++) {
-			Vertex* v2 = v->edges[i]->pDestV;
-			newG->addEdgeD(v->id, v2->id);
+	v->mark = true;
+	for (unsigned i = 0; i < v->edges.size(); i++) {
+		Vertex* v2 = v->edges[i]->pDestV;
+		if (!v2->mark) {
+			newG->addEdge(v->id, v2->id);
 			dfs(v2, newG);
 		}
 	}
 }
 
 // in facebook_combined.txt, the graph is connected (only 1 component)
-std::vector<Graph*> findConnectedComponents(Graph* pG) {
+std::vector<Graph*> findConnectedComponentsDFS(Graph* pG) {
 	// unmark all vertices
 	for (unsigned i = 0 ; i < pG->vertices.size(); i++) {
 		pG->vertices[i]->mark = false;
@@ -304,6 +282,42 @@ std::vector<Graph*> findConnectedComponents(Graph* pG) {
 	while (currV != NULL) {
 		Graph* newG = new Graph();
 		dfs(currV, newG);
+		currV = findUnmarkedVertex(pG);
+		result.push_back(newG);
+	}
+	return result;
+}
+
+// helper method
+void bfs(Vertex* v, Graph* newG) {
+	v->mark = true;
+	std::queue<Vertex*> neighbours;
+	for (unsigned i = 0; i < v->edges.size(); i++) {
+		Vertex* v2 = v->edges[i]->pDestV;
+		if (!v2->mark) {
+			newG->addEdge(v->id, v2->id);
+			neighbours.push(v2);
+		}
+	}
+	for (unsigned j = 0 ; j < neighbours.size(); j++) {
+		Vertex* v3 = neighbours.front();
+		neighbours.pop();
+		bfs(v3, newG);
+	}
+}
+
+// find connected graph using BFS
+std::vector<Graph*> findConnectedComponentsBFS(Graph* pG) {
+	// unmark all vertices
+	for (unsigned i = 0 ; i < pG->vertices.size(); i++) {
+		pG->vertices[i]->mark = false;
+	}
+	std::vector<Graph*> result;
+	// Keep dfs until copyG's vertices becomes 0
+	Vertex* currV = findUnmarkedVertex(pG);
+	while (currV != NULL) {
+		Graph* newG = new Graph();
+		bfs(currV, newG);
 		currV = findUnmarkedVertex(pG);
 		result.push_back(newG);
 	}
