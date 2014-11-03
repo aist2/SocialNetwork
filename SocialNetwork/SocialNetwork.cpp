@@ -43,24 +43,21 @@ void printConnectedComponents(std::vector<Graph*> result)
 int main(int argc, const char* argv[])
 {
 	Graph* pG;
-	pG = generateRandomGraph(10, 50);
+	//pG = generateRandomGraph(10, 50);
 	//pG = generatePreferentialGraph(500, 75);
-	//pG = readRealGraph(argv[1], ' ');
+	pG = readRealGraph(argv[1], ' ');
 	//pG->printEdges();
 	//pG->printVertices();
 
 	std::cout << "Number of nodes: " << pG->getVertexSize() << std::endl;
 	std::cout << "Number of edges: " << pG->getEdgeSize() << std::endl;
 
-<<<<<<< HEAD
 	std::vector<Graph*> connectedComponents = findConnectedComponentsDFS(pG);
 	printConnectedComponents(connectedComponents);
 	//printDegreeDistribution(pG->computeDegreeDistribution());
-=======
 	//std::vector<Graph*> connectedComponents = findConnectedComponentsBFS(pG);
 	//printConnectedComponents(connectedComponents);
-	printDegreeDistribution(pG->computeDegreeDistribution());
->>>>>>> branch 'master' of https://github.com/aist2/SocialNetwork/
+	//printDegreeDistribution(pG->computeDegreeDistribution());
 	//std::vector <std::tuple<int,int,int>> triangles = pG->getAllTriangles_brutal();
 	//printTriangles(triangles);
 	//virusPropagate(pG,0);
