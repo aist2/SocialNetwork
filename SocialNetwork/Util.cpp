@@ -40,6 +40,7 @@ std::tuple<int,int,int> createTriangleNode (int i1, int i2, int i3) {
 		std::swap(i2, i3); //now b can't be the highest and c not the lowest, so: a: 1|2  b: 1|2  c: 3 (sole remaining candidate)
 	if (i1 > i2)
 		std::swap(i1, i2);
+
 	std::tuple<int, int, int> result(i1, i2, i3);
 	return result;
 }

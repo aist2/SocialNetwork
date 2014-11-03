@@ -308,6 +308,11 @@ void dfs(Vertex* v, Graph* newG) {
 		Vertex* v2 = v->edges[i]->pDestV;
 		if (!v2->mark) {
 			newG->addEdge(v->id, v2->id);
+		}
+	}
+	for (unsigned i = 0; i < v->edges.size(); i++) {
+		Vertex* v2 = v->edges[i]->pDestV;
+		if (!v2->mark) {
 			dfs(v2, newG);
 		}
 	}
