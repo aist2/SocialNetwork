@@ -61,7 +61,7 @@ int main(int argc, const char* argv[])
 	//std::vector <std::tuple<int,int,int>> triangles = pG->getAllTriangles_brutal();
 	//printTriangles(triangles);
 	//virusPropagate(pG,0);
-	//printDegreeDistribution(computePopularity(pG));
+	printDegreeDistribution(computePopularity(pG));
 	//system("PAUSE");
 	return 0;
 }

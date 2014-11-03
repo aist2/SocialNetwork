@@ -2,7 +2,7 @@
 
 int virusPropagate(Graph* pG, int startVertexId)
 {
-	std::cout << "Virus propagating..." << std::endl;
+	//std::cout << "Virus propagating..." << std::endl;
 
 	int nodeSize = pG->getVertexSize();
 	int startInfectSize;
@@ -18,6 +18,13 @@ int virusPropagate(Graph* pG, int startVertexId)
 	startInfectSize = 0;
 	endInfectSize = 1;
 	round = 0;
+
+	if (pVStart->getEdgeSize() == 0)
+	{
+		std::cout << "Isolated vertex." << std::endl;
+		return -1;
+	}
+
 	while (endInfectSize > startInfectSize)
 	{
 		round++;
@@ -46,12 +53,8 @@ int virusPropagate(Graph* pG, int startVertexId)
 		pV->infected = false;
 	} 
 
-	if (endInfectSize < nodeSize)
-	{
-		std::cout << "Incomplete propagation." << std::endl;
-		return -1;
-	}
-	std::cout << "Virus propagating DONE" << std::endl;
+	
+	//std::cout << "Virus propagating DONE" << std::endl;
 	std::cout << "id: " << startVertexId << ", degree: " << pVStart->getEdgeSize() << ", popularity: " << round << std::endl;
 	return round;
 }
