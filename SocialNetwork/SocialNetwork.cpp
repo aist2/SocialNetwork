@@ -43,8 +43,8 @@ void printConnectedComponents(std::vector<Graph*> result)
 int main(int argc, const char* argv[])
 {
 	Graph* pG;
-	pG = generateRandomGraph(10, 50);
-	//pG = generatePreferentialGraph(500, 75);
+	//pG = generateRandomGraph(100, 50);
+	pG = generatePreferentialGraph(5000, 100);
 	//pG = readRealGraph(argv[1], ' ');
 	//pG->printEdges();
 	//pG->printVertices();
@@ -58,7 +58,7 @@ int main(int argc, const char* argv[])
 	//std::vector <std::tuple<int,int,int>> triangles = pG->getAllTriangles_brutal();
 	//printTriangles(triangles);
 	//virusPropagate(pG,0);
-	//printDegreeDistribution(computePopularity(pG));
+	printDegreeDistribution(computePopularity(pG));
 	//system("PAUSE");
 	return 0;
 }
