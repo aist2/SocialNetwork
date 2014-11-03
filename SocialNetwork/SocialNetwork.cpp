@@ -52,7 +52,7 @@ int main(int argc, const char* argv[])
 	std::cout << "Number of nodes: " << pG->getVertexSize() << std::endl;
 	std::cout << "Number of edges: " << pG->getEdgeSize() << std::endl;
 
-	std::vector<Graph*> connectedComponents = findConnectedComponentsBFS(pG);
+	std::vector<Graph*> connectedComponents = findConnectedComponentsDFS(pG);
 	printConnectedComponents(connectedComponents);
 	//printDegreeDistribution(pG->computeDegreeDistribution());
 	//std::vector <std::tuple<int,int,int>> triangles = pG->getAllTriangles_brutal();
