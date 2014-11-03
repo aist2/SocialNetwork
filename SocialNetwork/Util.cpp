@@ -48,7 +48,6 @@ std::string int_to_string(int i) {
 	std::ostringstream convert;   // stream used for the conversion
 	convert << i;      // insert the textual representation of 'Number' in the characters in the stream
 	return convert.str();
-
 }
 
 
