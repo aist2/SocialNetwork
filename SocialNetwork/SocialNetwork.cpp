@@ -52,8 +52,9 @@ int main(int argc, const char* argv[])
 	std::cout << "Number of nodes: " << pG->getVertexSize() << std::endl;
 	std::cout << "Number of edges: " << pG->getEdgeSize() << std::endl;
 
-	std::vector<Graph*> connectedComponents = findConnectedComponentsDFS(pG);
+	std::vector<Graph*> connectedComponents = findConnectedComponentsBFS(pG);
 	printConnectedComponents(connectedComponents);
+	std::cout << "Test: " << computeDiameter(pG, 0) << std::endl;
 	//printDegreeDistribution(pG->computeDegreeDistribution());
 	//std::vector<Graph*> connectedComponents = findConnectedComponentsBFS(pG);
 	//printConnectedComponents(connectedComponents);
@@ -61,7 +62,7 @@ int main(int argc, const char* argv[])
 	//std::vector <std::tuple<int,int,int>> triangles = pG->getAllTriangles_brutal();
 	//printTriangles(triangles);
 	//virusPropagate(pG,0);
-	printDegreeDistribution(computePopularity(pG));
+	//printDegreeDistribution(computePopularity(pG));
 	//system("PAUSE");
 	return 0;
 }

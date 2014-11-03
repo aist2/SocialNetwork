@@ -344,22 +344,16 @@ std::vector<Graph*> findConnectedComponentsDFS(Graph* pG) {
 void bfs(Vertex* v, Graph* newG) {
 	v->mark = true;
 	std::queue<Vertex*> neighbours;
-	for (unsigned i = 0; i < v->edges.size(); i++) {
-		Vertex* v2 = v->edges[i]->pDestV;
-		if (!v2->mark) {
-			newG->addEdge(v->id, v2->id);
-			neighbours.push(v2);
-		}
-	}
+	neighbours.push(v);
 	while (!neighbours.empty()) {
-		Vertex* v3 = neighbours.front();
+		Vertex* vCurr = neighbours.front();
 		neighbours.pop();
-		for (unsigned i = 0; i < v3->edges.size(); i++) {
-			v3->mark = true;
-			Vertex* v4 = v3->edges[i]->pDestV;
-			if (!v4->mark) {
-				newG->addEdge(v3->id, v4->id);
-				neighbours.push(v4);
+		for (unsigned i = 0; i < vCurr->edges.size(); i++) {
+			vCurr->mark = true;
+			Vertex* vNext = vCurr->edges[i]->pDestV;
+			if (!vNext->mark) {
+				newG->addEdge(vCurr->id, vNext->id);
+				neighbours.push(vNext);
 			}
 		}
 	}
@@ -385,13 +379,4 @@ std::vector<Graph*> findConnectedComponentsBFS(Graph* pG) {
 	std::cout << "Time taken to bfs: " << ((float) timeElapsed) / CLOCKS_PER_SEC
 					<< " second(s)\n";
 	return result;
-}
-
-
-////////////////
-/** Diameter **/
-////////////////
-//larger s: more accuracy, more time
-long computeDiameter(Graph* pG, int s) {
-	return  1;
 }
