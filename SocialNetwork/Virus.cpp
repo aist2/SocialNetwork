@@ -52,6 +52,7 @@ int virusPropagate(Graph* pG, int startVertexId)
 		return -1;
 	}
 	std::cout << "Virus propagating DONE" << std::endl;
+	std::cout << "id: " << startVertexId << ", degree: " << pVStart->getEdgeSize() << ", popularity: " << round << std::endl;
 	return round;
 }
 
@@ -102,7 +103,6 @@ std::map<long, long> computePopularity(Graph* pG) {
 	{
 		Vertex* pV = *i;
 		pV->popularity = virusPropagate(pG, pV->id);
-		std::cout << "id: " << pV->id << ", popularity: " << pV->popularity << std::endl;
 		resultMap[pV->popularity]++;
 	} 
 

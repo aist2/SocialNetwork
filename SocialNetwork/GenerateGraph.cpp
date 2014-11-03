@@ -3,13 +3,8 @@
 Graph* generateRandomGraph(int nodeSize, int prob)
 {
 	std::cout << "Generating Random Graph..." << std::endl;
-
+	clock_t timeElapsed = clock();
 	Graph* pG = new Graph();
-
-	for (int i = 0; i < nodeSize; i++)
-	{
-		pG->addVertex(i);
-	}
 
 	for (int i = 0; i < nodeSize; i++)
 	{
@@ -21,8 +16,8 @@ Graph* generateRandomGraph(int nodeSize, int prob)
 			}
 		}
 	}
-
-	std::cout << "Generating Random Graph DONE" << std::endl;
+	timeElapsed = clock() - timeElapsed;
+	std::cout << "Generating Random Graph DONE; time taken:" << ((float)timeElapsed)/CLOCKS_PER_SEC << " second(s)\n";
 	return pG;
 }
 
