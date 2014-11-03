@@ -6,7 +6,7 @@
  */
 #include "Header.h"
 
-// traverse entire component
+// helper
 long bfsRaw(Vertex* v, int numVertices) {
 	std::map<int, long> vHeightMap;
 	v->mark = true;
