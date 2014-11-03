@@ -137,16 +137,11 @@ Vertex* Graph::addVertex(int id)
 
 Vertex* Graph::findVertex(int id)
 {
-	Vertex* pV;
-	try
-	{
-		pV = vertexMap.at(id);
-		return pV;
-	}
-	catch (...)
-	{
+	std::unordered_map<int,Vertex*>::const_iterator iter = vertexMap.find(id);
+	if ( iter == vertexMap.end() )
 		return NULL;
-	}
+	else
+		return iter->second;
 }
 
 Edge* Graph::findEdge(Vertex* pV1,Vertex* pV2)
@@ -167,16 +162,12 @@ Edge* Graph::findEdge(Vertex* pV1,Vertex* pV2)
 
 	key = std::to_string(id1) + "," + std::to_string(id2);
 
-	try
-	{
-		pE = edgeMap.at(key);
-		return pE;
-	}
-	catch (...)
-	{
+	std::unordered_map<std::string,Edge*>::const_iterator iter = edgeMap.find(key);
+	if ( iter == edgeMap.end() )
 		return NULL;
-	}
-	return NULL;
+	else
+		return iter->second;
+
 }
 
 void Graph::printEdges()
