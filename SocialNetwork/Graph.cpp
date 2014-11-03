@@ -79,30 +79,51 @@ Edge* Graph::addEdge(int id1, int id2)
 {
 	Vertex* pV1;
 	Vertex* pV2;
-	
+	Edge* pE1 = NULL;
+	Edge* pE2 = NULL;
+			
+	if(id1 > id2)
+	{
+		int temp = id2;
+		id2 = id1;
+		id1 = temp;
+	}
+
 	pV1 = findVertex(id1);
+	pV2 = findVertex(id2);
+
+	if (pV1 != NULL && pV2 != NULL)
+	{
+		pE1 = findEdge(pV1,pV2);
+	}
+
 	if (pV1 == NULL)
 	{
-		pV1=new Vertex(id1);
-		vertices.push_back(pV1);
+		pV1 = addVertex(id1);
 	}
 
-	pV2 = findVertex(id2);
+	
 	if (pV2 == NULL)
 	{
-		pV2 = new Vertex(id2);
-		vertices.push_back(pV2);
+		pV2 = addVertex(id2);
 	}
-
-	Edge* pE1 = new Edge(pV1,pV2);
-	Edge* pE2 = new Edge(pV2,pV1);
-
-	edges.push_back(pE1);
-	pV1->edges.push_back(pE1);
-	pV2->edges.push_back(pE2);
 	
-	pV1->adj.push_back(id2);
-	pV2->adj.push_back(id1);
+	if (pE1 == NULL)
+	{
+
+		pE1 = new Edge(pV1,pV2);
+		pE2 = new Edge(pV2,pV1);
+
+		edges.push_back(pE1);
+		pV1->edges.push_back(pE1);
+		pV2->edges.push_back(pE2);
+	
+		pV1->adj.push_back(id2);
+		pV2->adj.push_back(id1);
+
+		std::string key = std::to_string(id1) + "," + std::to_string(id2);
+		edgeMap[key] = pE1;
+	}
 	return pE1;
 }
 
@@ -110,6 +131,7 @@ Vertex* Graph::addVertex(int id)
 {
 	Vertex* pV = new Vertex(id);
 	vertices.push_back(pV);
+	vertexMap[id] = pV;
 	return pV;
 }
 
@@ -118,22 +140,41 @@ Vertex* Graph::findVertex(int id)
 	Vertex* pV;
 	try
 	{
-		pV = vertices.at(id);
-		if (pV->id == id)
-		{
-			return pV;
-		}
+		pV = vertexMap.at(id);
+		return pV;
 	}
 	catch (...)
 	{
+		return NULL;
 	}
-	for ( auto i = vertices.begin(); i != vertices.end(); i++ ) 
+}
+
+Edge* Graph::findEdge(Vertex* pV1,Vertex* pV2)
+{
+	Edge* pE;
+
+	int id1 = pV1->id;
+	int id2 = pV2->id;
+	int temp;
+	std::string key;
+
+	if (id1 > id2)
 	{
-		pV = *i;
-		if(pV->id==id)
-		{
-			return pV;
-		}	
+		temp = id2;
+		id2 = id1;
+		id1 = temp;
+	}
+
+	key = std::to_string(id1) + "," + std::to_string(id2);
+
+	try
+	{
+		pE = edgeMap.at(key);
+		return pE;
+	}
+	catch (...)
+	{
+		return NULL;
 	}
 	return NULL;
 }
