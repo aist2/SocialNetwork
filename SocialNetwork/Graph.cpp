@@ -5,6 +5,7 @@ Vertex::Vertex(int newId)
 	id = newId;
 	infected = false;
 	popularity = -1;
+	mark = false;
 }
 
 Vertex::~Vertex()
