@@ -277,7 +277,7 @@ std::vector<Graph*> findConnectedComponentsDFS(Graph* pG) {
 		pG->vertices[i]->mark = false;
 	}
 	std::vector<Graph*> result;
-	// Keep dfs until copyG's vertices becomes 0
+	// Keep dfs until all of pG's vertices are marked
 	Vertex* currV = findUnmarkedVertex(pG);
 	while (currV != NULL) {
 		Graph* newG = new Graph();
@@ -306,7 +306,7 @@ void bfs(Vertex* v, Graph* newG) {
 			v3->mark = true;
 			Vertex* v4 = v3->edges[i]->pDestV;
 			if (!v4->mark) {
-				newG->addEdge(v->id, v4->id);
+				newG->addEdge(v3->id, v4->id);
 				neighbours.push(v4);
 			}
 		}
