@@ -44,6 +44,7 @@ int virusPropagate(Graph* pG, int startVertexId)
 		infectedVertices.reserve( infectedVertices.size() + newInfectedVertices.size() ); // preallocate memory
 		infectedVertices.insert( infectedVertices.end(), newInfectedVertices.begin(), newInfectedVertices.end() );
 		endInfectSize = infectedVertices.size();
+		std::cout << "Round " << round << ", infected nodes " << (endInfectSize) << std::endl;
 	}
 
 	//flush infected flag
