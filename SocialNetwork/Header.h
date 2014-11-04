@@ -109,4 +109,5 @@ std::map<long, long> computePopularity(Graph*);
 std::vector<Graph*> findConnectedComponentsDFS(Graph* pG);
 std::vector<Graph*> findConnectedComponentsBFS(Graph* pG);
 
+long computeDiameter_brutal(Graph* pG);
 long computeDiameter(Graph* pG, int s);

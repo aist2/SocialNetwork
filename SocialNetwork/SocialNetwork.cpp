@@ -43,9 +43,9 @@ void printConnectedComponents(std::vector<Graph*> result)
 int main(int argc, const char* argv[])
 {
 	Graph* pG;
-	//pG = generateRandomGraph(10, 50);
+	pG = generateRandomGraph(1000, 5);
 	//pG = generatePreferentialGraph(500, 75);
-	pG = readRealGraph(argv[1], ' ');
+	//pG = readRealGraph(argv[1], ' ');
 	//pG->printEdges();
 	//pG->printVertices();
 
@@ -54,12 +54,13 @@ int main(int argc, const char* argv[])
 
 	//std::vector<Graph*> connectedComponents = findConnectedComponentsBFS(pG);
 	//printConnectedComponents(connectedComponents);
-	std::cout << "Test: " << computeDiameter(pG, 2) << std::endl;
+	std::cout << "Diameter by brutal force: " << computeDiameter_brutal(pG) << std::endl;
+	std::cout << "Diameter by approximation: " << computeDiameter(pG, 3) << std::endl;
 	//printDegreeDistribution(pG->computeDegreeDistribution());
 	//std::vector<Graph*> connectedComponents = findConnectedComponentsBFS(pG);
 	//printConnectedComponents(connectedComponents);
 	//printDegreeDistribution(pG->computeDegreeDistribution());
-	//std::vector <std::tuple<int,int,int>> triangles = pG->getAllTriangles_brutal();
+	//std::vector <std::tuple<int,int,int>> triangles = pG->getAllTriangles_forward();
 	//printTriangles(triangles);
 	//virusPropagate(pG,0);
 	//printDegreeDistribution(computePopularity(pG));
