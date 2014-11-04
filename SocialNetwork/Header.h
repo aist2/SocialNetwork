@@ -65,10 +65,10 @@ public:
 	void printVertices();
 	Graph* shallowCopy();
 
+	// should ideally move these out of Graph class..
 	std::map<long, long> computeDegreeDistribution();
 	std::vector<std::tuple<int,int,int>> getAllTriangles_brutal(); // find all triangles by testing each vertex and its adjacent vetices. Complexity: O power 3
 	std::vector <std::tuple<int,int,int>> getAllTriangles_forward();
-	long computeDiameter();
 
 	std::vector <Edge*> edges;
 	std::vector <Vertex*> vertices;
