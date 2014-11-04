@@ -64,11 +64,11 @@ void bfs(Vertex* v, Graph* newG) {
 		Vertex* vCurr = neighbours.front();
 		neighbours.pop();
 		for (unsigned i = 0; i < vCurr->edges.size(); i++) {
-			vCurr->mark = true;
 			Vertex* vNext = vCurr->edges[i]->pDestV;
 			if (!vNext->mark) {
 				newG->addEdge(vCurr->id, vNext->id);
 				neighbours.push(vNext);
+				vNext->mark = true;
 			}
 		}
 	}
