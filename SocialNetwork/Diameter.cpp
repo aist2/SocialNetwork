@@ -7,7 +7,7 @@
 #include "Header.h"
 
 // helper
-long bfsRaw(Vertex* v, int numVertices) {
+long bfsFindHeightRaw(Vertex* v, int numVertices) {
 	std::map<int, long> vHeightMap;
 	v->mark = true;
 	std::queue<Vertex*> neighbours;
@@ -39,19 +39,45 @@ long bfsRaw(Vertex* v, int numVertices) {
 }
 
 // return height + specify number nodes to traverse
-long bfs(Vertex* v, int numVertices) {
+long bfsFindHeight(Vertex* v, int numVertices) {
 	if (numVertices < 0) {
 		return -1;
 	} else if (numVertices <= 1) {
 		return 0;
 	} else {
-		bfsRaw(v, numVertices);
+		bfsFindHeightRaw(v, numVertices);
 	}
 	return 1;
 }
 
+// helper
+std::vector<Vertex*> bfsFindNeighboursSelfInclusive(Vertex* v, int numVertices) {
+	v->mark = true;
+	std::queue<Vertex*> neighbours;
+	std::vector<Vertex*> result;
+	neighbours.push(v);
+	int count = 0;
+	while (!neighbours.empty()) {
+		Vertex* vCurr = neighbours.front();
+		count ++;
+		if (count > numVertices) {
+			break;
+		}
+		neighbours.pop();
+		result.push_back(vCurr);
+		for (unsigned i = 0; i < vCurr->edges.size(); i++) {
+			vCurr->mark = true;
+			Vertex* vNext = vCurr->edges[i]->pDestV;
+			if (!vNext->mark) {
+				neighbours.push(vNext);
+			}
+		}
+	}
+	return result;
+}
+
 // traverse entire component
-long bfs(Vertex* v) {
+long bfsFindHeight(Vertex* v) {
 	std::map<int, long> vHeightMap;
 	v->mark = true;
 	std::queue<Vertex*> neighbours;
@@ -83,6 +109,38 @@ long computeDiameter(Graph* pG, int s) {
 	for (unsigned i = 0; i < pG->vertices.size(); i++) {
 		pG->vertices[i]->mark = false;
 	}
-	return bfs(pG->vertexMap.begin()->second, 2);
+
+	Vertex* selectedV;
+	long maxHeight = -1;
+
+	//// compute d(out)(s)(w)
+	// find v
+	for (unsigned i = 0 ; i < pG->vertices.size(); i++) {
+		long currHeight = bfsFindHeight(pG->vertices[i], s);
+		if (currHeight > maxHeight) {
+			maxHeight = currHeight;
+			selectedV = pG->vertices[i];
+		}
+	}
+
+	// unmark all vertices again
+	for (unsigned i = 0; i < pG->vertices.size(); i++) {
+		pG->vertices[i]->mark = false;
+	}
+
+	// find neighbours of v (including v), bfs
+	long maxHeightVN = -1; //reuse
+	std::vector<Vertex*> vNeighbours = bfsFindNeighboursSelfInclusive(selectedV, s);
+	for (unsigned i = 0 ; i < vNeighbours.size(); i++) {
+		long currHeight = bfsFindHeight(vNeighbours[i]);
+		if (currHeight > maxHeightVN) {
+			maxHeightVN = currHeight;
+		}
+	}
+
+
+
+	return maxHeightVN;
+	//return bfsFindHeight(pG->vertexMap.begin()->second, 2);
 }
 
