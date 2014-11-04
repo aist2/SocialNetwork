@@ -138,6 +138,11 @@ long computeDiameter(Graph* pG, int s) {
 		}
 	}
 
+	// unmark all vertices, again
+	for (unsigned i = 0; i < pG->vertices.size(); i++) {
+		pG->vertices[i]->mark = false;
+	}
+
 
 
 	return maxHeightVN;
