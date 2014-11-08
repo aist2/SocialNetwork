@@ -23,3 +23,4 @@ algo_option:
 5: diameter_brutal
 6: diameter_approximation
 7: virus_propagate
+
