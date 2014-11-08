@@ -17,7 +17,6 @@
 #include <queue>
 #include <unordered_map>
 
-
 //Graph
 class Edge;
 
@@ -67,8 +66,6 @@ public:
 
 	// should ideally move these out of Graph class..
 	std::map<long, long> computeDegreeDistribution();
-	std::vector<std::tuple<int,int,int>> getAllTriangles_brutal(); // find all triangles by testing each vertex and its adjacent vetices. Complexity: O power 3
-	std::vector <std::tuple<int,int,int>> getAllTriangles_forward();
 
 	std::vector <Edge*> edges;
 	std::vector <Vertex*> vertices;
@@ -109,5 +106,11 @@ std::map<long, long> computePopularity(Graph*);
 std::vector<Graph*> findConnectedComponentsDFS(Graph* pG);
 std::vector<Graph*> findConnectedComponentsBFS(Graph* pG);
 
+
+// Diameter.cpp
 long computeDiameter_brutal(Graph* pG);
 long computeDiameter(Graph* pG, int s);
+
+// Triangle.cpp
+std::vector<std::tuple<int, int, int>> getAllTriangles_brutal(Graph* pG); // find all triangles by testing each vertex and its adjacent vetices. Complexity: O power 3
+std::vector <std::tuple<int,int,int>> getAllTriangles_forward(Graph* pG);
