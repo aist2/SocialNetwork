@@ -33,13 +33,21 @@ std::vector<std::tuple<int, int, int>> getAllTriangles_brutal(Graph* pG) {
 }
 
 // function f
-bool f(Vertex* v1, Vertex* v2) {
-	return ((v1->getEdgeSize() < v2->getEdgeSize()) || (v1->getEdgeSize() == v2->getEdgeSize() && v1->id < v2->id));
+//bool f(Vertex* v1, Vertex* v2) {
+//	return ((v1->getEdgeSize() < v2->getEdgeSize()) || (v1->getEdgeSize() == v2->getEdgeSize() && v1->id < v2->id));
+//}
+
+double f(Vertex* v1) {
+	return 100/(double)v1->getEdgeSize() + 100/((double)v1->id);
 }
 
-bool sortVertice(Vertex* v1, Vertex* v2) {
-	return !f(v1,v2);
+double compare(Vertex* v1, Vertex* v2) {
+	return f(v1)>f(v2);
 }
+
+//bool sortVertice(Vertex* v1, Vertex* v2) {
+//	return !f(v1,v2);
+//}
 
 /*
  * Refer to Algorithm 1 ¨C forward. Lists all the triangles in a graph [25, 26] in <triangles_short.pdf>
@@ -53,7 +61,8 @@ std::vector<std::tuple<int, int, int>> getAllTriangles_forward(Graph* pG) {
 		vertices.push_back(it->second);
 	}
 
-	std::sort (vertices.begin(), vertices.end(), sortVertice);
+	//std::sort (vertices.begin(), vertices.end(), sortVertice);
+	std::sort (vertices.begin(), vertices.end(), compare);
 
 	std::vector<std::tuple<int, int, int> > triangleTuples;
 
@@ -65,7 +74,8 @@ std::vector<std::tuple<int, int, int>> getAllTriangles_forward(Graph* pG) {
 			Vertex* secondV = focalV->edges[j]->pDestV;
 			// only consider smaller degree nodes
 			// if nodes are of same degree, only consider node with larger id
-			if (f(secondV, focalV)) {
+			//if (f(secondV, focalV)) {
+			if (compare(focalV, secondV)) {
 				// Add common element in nodeData to triangle
 				std::vector<int> result;
 				std::set_intersection(focalV->nodeData.begin(), focalV->nodeData.end(), secondV->nodeData.begin(),
