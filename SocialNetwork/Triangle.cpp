@@ -61,7 +61,6 @@ std::vector<std::tuple<int, int, int>> getAllTriangles_forward(Graph* pG) {
 		vertices.push_back(it->second);
 	}
 
-	//std::sort (vertices.begin(), vertices.end(), sortVertice);
 	std::sort (vertices.begin(), vertices.end(), compare);
 
 	std::vector<std::tuple<int, int, int> > triangleTuples;
@@ -74,8 +73,7 @@ std::vector<std::tuple<int, int, int>> getAllTriangles_forward(Graph* pG) {
 			Vertex* secondV = focalV->edges[j]->pDestV;
 			// only consider smaller degree nodes
 			// if nodes are of same degree, only consider node with larger id
-			//if (f(secondV, focalV)) {
-			if (compare(focalV, secondV)) {
+			if (f(secondV) > f(focalV)) {
 				// Add common element in nodeData to triangle
 				std::vector<int> result;
 				std::set_intersection(focalV->nodeData.begin(), focalV->nodeData.end(), secondV->nodeData.begin(),

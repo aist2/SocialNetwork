@@ -130,8 +130,11 @@ int main(int argc, const char* argv[]) {
 	//printConnectedComponents(connectedComponents);
 	//cout << "Diameter by brutal force: " << computeDiameter_brutal(pG) << endl;
 	//cout << "Diameter by approximation: " << computeDiameter(pG, 3) << endl;
-	//
 	//vector<Graph*> connectedComponents = findConnectedComponentsDFS(pG);
+	//std::cout << "Diameter by brutal force: " << computeDiameter_brutal(pG) << std::endl;
+	//std::cout << "Diameter by approximation: " << computeDiameter(pG, 3) << std::endl;
+	//printDegreeDistribution(pG->computeDegreeDistribution());
+	//std::vector<Graph*> connectedComponents = findConnectedComponentsBFS(pG);
 	//printConnectedComponents(connectedComponents);
 	//printDegreeDistribution(pG->computeDegreeDistribution());
 	//vector <tuple<int,int,int>> triangles = getAllTriangles_brutal(pG);
