@@ -26,7 +26,6 @@ public:
 	int id;
 	bool infected;
 	int popularity;
-	bool mark; //used by dfs, should refactor and remove it...
 	std::vector <Edge*> edges;
 	std::vector <int> adj;
 	std::vector <int> nodeData; // this field is used by triangle algo only.. no need to touch it during vertex creation

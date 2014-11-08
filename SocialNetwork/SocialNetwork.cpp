@@ -49,16 +49,16 @@ int main(int argc, const char* argv[])
 	//pG->printEdges();
 	//pG->printVertices();
 
-	std::cout << "Number of nodes: " << pG->getVertexSize() << std::endl;
+ 	std::cout << "Number of nodes: " << pG->getVertexSize() << std::endl;
 	std::cout << "Number of edges: " << pG->getEdgeSize() << std::endl;
 
 	//std::vector<Graph*> connectedComponents = findConnectedComponentsBFS(pG);
 	//printConnectedComponents(connectedComponents);
 	//std::cout << "Diameter by brutal force: " << computeDiameter_brutal(pG) << std::endl;
-	std::cout << "Diameter by approximation: " << computeDiameter(pG, 3) << std::endl;
+	//std::cout << "Diameter by approximation: " << computeDiameter(pG, 3) << std::endl;
 	//printDegreeDistribution(pG->computeDegreeDistribution());
-	//std::vector<Graph*> connectedComponents = findConnectedComponentsBFS(pG);
-	//printConnectedComponents(connectedComponents);
+	std::vector<Graph*> connectedComponents = findConnectedComponentsDFS(pG);
+	printConnectedComponents(connectedComponents);
 	//printDegreeDistribution(pG->computeDegreeDistribution());
 	//std::vector <std::tuple<int,int,int>> triangles = getAllTriangles_brutal(pG);
 	//std::vector <std::tuple<int,int,int>> triangles = getAllTriangles_forward(pG);
