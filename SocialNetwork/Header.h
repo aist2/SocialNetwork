@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <queue>
 #include <unordered_map>
+#include <set>
 
 //Graph
 class Edge;
@@ -25,7 +26,7 @@ class Vertex
 public:
 	int id;
 	bool infected;
-	int popularity;
+	double popularity;
 	std::vector <Edge*> edges;
 	std::vector <int> adj;
 	std::vector <int> nodeData; // this field is used by triangle algo only.. no need to touch it during vertex creation
@@ -99,7 +100,13 @@ Vertex* pickOneFriend(Vertex*);
 
 Vertex* randomPick(std::vector <Vertex*>*);
 
-std::map<long, long> computePopularity(Graph*);
+std::map<double, int> computePopularityDistribution(Graph*);
+
+std::unordered_map<int,int> Dijkstra(Graph*, Vertex*);
+
+std::map<double,int> computeShortestPath(Graph*);
+
+void printDistribution(std::map<double, int>, std::string);
 
 //Triangle, Diameter and connected component
 std::vector<Graph*> findConnectedComponentsDFS(Graph* pG);

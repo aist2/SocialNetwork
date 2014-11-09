@@ -19,8 +19,7 @@ int Vertex::getEdgeSize()
 
 void Vertex::print()
 {
-	std::cout << "id: " << id;
-	std::cout << "; degree: " << getEdgeSize();
+	std::cout << "id: \t" << id << "; degree: \t" << getEdgeSize() << "; popularity: \t" << popularity;
 	std::cout << std::endl;
 }
 

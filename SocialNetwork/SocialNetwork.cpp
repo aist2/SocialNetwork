@@ -114,18 +114,15 @@ int main(int argc, const char* argv[]) {
 	Graph* pG;
 	//pG = generateRandomGraph(1000, 5);
 	//pG = generatePreferentialGraph(500, 75);
-	if (argc < 5) {
-		cout << readMe;
-		exit(0);
-	}
-	//pG = readRealGraph(argv[1], ' ');
+
+	pG = readRealGraph(argv[1], ' ');
 	//pG->printEdges();
-	//pG->printVertices();
-	pG = readGraphInMain(argv[1], argv[2], argv[3]);
+	
+
 	cout << "Number of nodes: " << pG->getVertexSize() << endl;
 	cout << "Number of edges: " << pG->getEdgeSize() << endl;
 
-	runAlgoInMain(argv[4], pG);
+	//runAlgoInMain(argv[4], pG);
 	//vector<Graph*> connectedComponents = findConnectedComponentsBFS(pG);
 	//printConnectedComponents(connectedComponents);
 	//cout << "Diameter by brutal force: " << computeDiameter_brutal(pG) << endl;
@@ -140,8 +137,11 @@ int main(int argc, const char* argv[]) {
 	//vector <tuple<int,int,int>> triangles = getAllTriangles_brutal(pG);
 	//vector<tuple<int, int, int>> triangles = getAllTriangles_forward(pG);
 	//printTriangles(triangles);
-	virusPropagate(pG,11);
-	//printDegreeDistribution(computePopularity(pG));
+	//virusPropagate(pG,2269);
+	
+	printDistribution(computePopularityDistribution(pG), "Popularity");
+	pG->printVertices();
+	//printDistribution(computeShortestPath(pG), "Closeness");
 	//system("PAUSE");
 	return 0;
 }
