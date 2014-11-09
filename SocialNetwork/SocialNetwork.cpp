@@ -140,7 +140,7 @@ int main(int argc, const char* argv[]) {
 	//vector <tuple<int,int,int>> triangles = getAllTriangles_brutal(pG);
 	//vector<tuple<int, int, int>> triangles = getAllTriangles_forward(pG);
 	//printTriangles(triangles);
-	//virusPropagate(pG,0);
+	virusPropagate(pG,11);
 	//printDegreeDistribution(computePopularity(pG));
 	//system("PAUSE");
 	return 0;

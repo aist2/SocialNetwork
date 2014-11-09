@@ -66,7 +66,7 @@ public:
 	// should ideally move these out of Graph class..
 	std::map<long, long> computeDegreeDistribution();
 
-	std::vector <Edge*> edges;
+	//std::vector <Edge*> edges;
 	std::vector <Vertex*> vertices;
 	std::unordered_map<int, Vertex*> vertexMap;
 	std::unordered_map<std::string, Edge*> edgeMap;

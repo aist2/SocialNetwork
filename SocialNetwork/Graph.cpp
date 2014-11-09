@@ -66,12 +66,12 @@ Graph::~Graph()
 
 int Graph::getVertexSize()
 {
-	return vertices.size();
+	return vertexMap.size();
 }
 
 int Graph::getEdgeSize()
 {
-	return edges.size();
+	return edgeMap.size();
 }
 
 
@@ -115,7 +115,7 @@ Edge* Graph::addEdge(int id1, int id2)
 		pE1 = new Edge(pV1,pV2);
 		pE2 = new Edge(pV2,pV1);
 
-		edges.push_back(pE1);
+		//edges.push_back(pE1);
 		pV1->edges.push_back(pE1);
 		pV2->edges.push_back(pE2);
 	
@@ -174,26 +174,27 @@ Edge* Graph::findEdge(Vertex* pV1,Vertex* pV2)
 void Graph::printEdges()
 {
 //	std::cout << "===Edges===" << std::endl;
-	for (unsigned i = 0; i < edges.size(); i++)
-        edges[i]->print();
+	for (auto i = edgeMap.begin(); i != edgeMap.end(); ++i)
+        i->second->print();
 //	std::cout << "===Edges===" << std::endl;
 }
 
 void Graph::printVertices()
 {
 	std::cout << "===Vertices===" << std::endl;
-	for (unsigned i = 0; i < vertices.size(); i++)
-        vertices[i]->print();
+	for (auto i = vertexMap.begin(); i != vertexMap.end(); ++i)
+        i->second->print();
 	std::cout << "===Vertices===" << std::endl;
 }
 
+/*
 Graph* Graph::shallowCopy(){
 	Graph* newG = new Graph();
 	newG->edges = edges;
 	newG->vertices = vertices;
 	return newG;
 }
-
+*/
 
 //////////////////////////////////////////////////
 /** Triangle, Diameter and connected component **/
@@ -206,8 +207,8 @@ Graph* Graph::shallowCopy(){
 std::map<long, long> Graph::computeDegreeDistribution() {
 	clock_t timeElapsed = clock();
 	std::map<long, long> resultMap;
-	for (unsigned i = 0; i < vertices.size(); i++) {
-		resultMap[vertices[i]->getEdgeSize()]++;
+	for (auto i = vertexMap.begin(); i != vertexMap.end(); ++i) {
+		resultMap[i->second->getEdgeSize()]++;
 	}
 	timeElapsed = clock() - timeElapsed;
 	std::cout << "Time taken to compute degree distribution: " << ((float)timeElapsed)/CLOCKS_PER_SEC << " second(s)\n";

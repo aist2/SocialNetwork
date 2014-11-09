@@ -8,10 +8,12 @@ Graph* generateRandomGraph(int nodeSize, int prob)
 
 	for (int i = 0; i < nodeSize; i++)
 	{
+		std::cout << "Random i: " << i << std::endl;
 		for (int j = (i+1); j < nodeSize; j++)
 		{
 			if (isAddEdge(prob))
 			{
+				
 				pG->addEdge(i,j);
 			}
 		}
