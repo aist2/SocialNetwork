@@ -110,9 +110,9 @@ long bfsFindHeight(Vertex* v) {
 long computeDiameter_brutal(Graph* pG) {
 	clock_t timeElapsed = clock();
 	long maxHeight = -1;
-	for (unsigned i = 0; i < pG->vertices.size(); i++) {
+	for (std::unordered_map<int, Vertex*>::iterator it = pG->vertexMap.begin(); it != pG->vertexMap.end(); it++) {
 		// unmark all vertices
-		long currHeight = bfsFindHeight(pG->vertices[i]);
+		long currHeight = bfsFindHeight(it->second);
 		if (currHeight > maxHeight) {
 			maxHeight = currHeight;
 		}
@@ -131,11 +131,11 @@ long computeDiameter(Graph* pG, int s) {
 
 	//// compute d(out)(s)(w)
 	// find v
-	for (unsigned i = 0; i < pG->vertices.size(); i++) {
-		long currHeight = bfsFindHeight(pG->vertices[i], s);
+	for (std::unordered_map<int, Vertex*>::iterator it = pG->vertexMap.begin(); it != pG->vertexMap.end(); it++) {
+		long currHeight = bfsFindHeight(it->second, s);
 		if (currHeight >= maxHeight) {
 			maxHeight = currHeight;
-			selectedV = pG->vertices[i];
+			selectedV = it->second;
 		}
 	}
 
@@ -149,11 +149,6 @@ long computeDiameter(Graph* pG, int s) {
 		if (currHeight > maxHeightVN) {
 			maxHeightVN = currHeight;
 		}
-	}
-
-	// unmark all vertices, again
-	for (unsigned i = 0; i < pG->vertices.size(); i++) {
-		pG->vertices[i]->mark = false;
 	}
 
 	timeElapsed = clock() - timeElapsed;

@@ -7,46 +7,53 @@
 #include "Header.h"
 
 // helper method
-Vertex* findUnmarkedVertex(Graph* pG) {
-	for (unsigned i = 0 ; i < pG->vertices.size(); i++) {
-		if (!pG->vertices[i]->mark) {
-			return pG->vertices[i];
+//Vertex* findUnmarkedVertex(Graph* pG) {
+//	for (std::unordered_map<int, Vertex*>::iterator it = pG->vertexMap.begin(); it != pG->vertexMap.end(); it++) {
+//		if (!it->second->mark) {
+//			return it->second;
+//		}
+//	}
+//	return NULL;
+//}
+
+Vertex* findUnmarkedVertex(Graph* pG, std::map<int, bool>* marks) {
+	for (std::unordered_map<int, Vertex*>::iterator it = pG->vertexMap.begin(); it != pG->vertexMap.end(); it++) {
+		if (!(*marks)[it->second->id]) {
+			return it->second;
 		}
 	}
 	return NULL;
 }
 
 // helper method
-void dfs(Vertex* v, Graph* newG) {
-	v->mark = true;
+void dfs(Vertex* v, std::map<int, bool>* marks, Graph* newG) {
+	(*marks)[v->id] = true;
 	for (unsigned i = 0; i < v->edges.size(); i++) {
 		Vertex* v2 = v->edges[i]->pDestV;
-		if (!v2->mark) {
+		if (!(*marks)[v2->id]) {
 			newG->addEdge(v->id, v2->id);
 		}
 	}
 	for (unsigned i = 0; i < v->edges.size(); i++) {
 		Vertex* v2 = v->edges[i]->pDestV;
-		if (!v2->mark) {
-			dfs(v2, newG);
+		if (!(*marks)[v2->id]) {
+			dfs(v2, marks, newG);
 		}
 	}
 }
 
 // in facebook_combined.txt, the graph is connected (only 1 component)
 std::vector<Graph*> findConnectedComponentsDFS(Graph* pG) {
-	// unmark all vertices
-	for (unsigned i = 0 ; i < pG->vertices.size(); i++) {
-		pG->vertices[i]->mark = false;
-	}
+	std::map<int, bool> vMarks;
+	std::map<int, bool> *marks = &vMarks;
 	std::vector<Graph*> result;
 	clock_t timeElapsed = clock();
 	// Keep dfs until all of pG's vertices are marked
-	Vertex* currV = findUnmarkedVertex(pG);
+	Vertex* currV = findUnmarkedVertex(pG, marks);
 	while (currV != NULL) {
 		Graph* newG = new Graph();
-		dfs(currV, newG);
-		currV = findUnmarkedVertex(pG);
+		dfs(currV, marks, newG);
+		currV = findUnmarkedVertex(pG, marks);
 		result.push_back(newG);
 	}
 	timeElapsed = clock() - timeElapsed;
@@ -56,8 +63,8 @@ std::vector<Graph*> findConnectedComponentsDFS(Graph* pG) {
 }
 
 // helper method
-void bfs(Vertex* v, Graph* newG) {
-	v->mark = true;
+void bfs(Vertex* v, std::map<int, bool>* marks, Graph* newG) {
+	(*marks)[v->id] = true;
 	std::queue<Vertex*> neighbours;
 	neighbours.push(v);
 	while (!neighbours.empty()) {
@@ -65,10 +72,10 @@ void bfs(Vertex* v, Graph* newG) {
 		neighbours.pop();
 		for (unsigned i = 0; i < vCurr->edges.size(); i++) {
 			Vertex* vNext = vCurr->edges[i]->pDestV;
-			if (!vNext->mark) {
+			if (!(*marks)[vNext->id]) {
 				newG->addEdge(vCurr->id, vNext->id);
 				neighbours.push(vNext);
-				vNext->mark = true;
+				(*marks)[vNext->id] = true;
 			}
 		}
 	}
@@ -76,18 +83,16 @@ void bfs(Vertex* v, Graph* newG) {
 
 // find connected graph using BFS
 std::vector<Graph*> findConnectedComponentsBFS(Graph* pG) {
-	// unmark all vertices
-	for (unsigned i = 0 ; i < pG->vertices.size(); i++) {
-		pG->vertices[i]->mark = false;
-	}
+	std::map<int, bool> vMarks;
+	std::map<int, bool> *marks = &vMarks;
 	std::vector<Graph*> result;
 	clock_t timeElapsed = clock();
 	// Keep dfs until copyG's vertices becomes 0
-	Vertex* currV = findUnmarkedVertex(pG);
+	Vertex* currV = findUnmarkedVertex(pG, marks);
 	while (currV != NULL) {
 		Graph* newG = new Graph();
-		bfs(currV, newG);
-		currV = findUnmarkedVertex(pG);
+		bfs(currV, marks, newG);
+		currV = findUnmarkedVertex(pG, marks);
 		result.push_back(newG);
 	}
 	timeElapsed = clock() - timeElapsed;

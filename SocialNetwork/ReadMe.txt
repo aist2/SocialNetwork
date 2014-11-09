@@ -1,40 +1,26 @@
-========================================================================
-    CONSOLE APPLICATION : SocialNetwork Project Overview
-========================================================================
+Please run the program with following arguments: 
 
-AppWizard has created this SocialNetwork application for you.
+SocialNetwork <graph_gen_type> <nodeSize|graph_input_file> <prob> <algo_option> 
 
-This file contains a summary of what you will find in each of the files that
-make up your SocialNetwork application.
+graph_gen_type: 
+0: random graph
+1: preferential graph
+2: load real graph from file (we assume the delimiter is space)
 
+nodeSize|graph_input_file:
+for random graph/ preferential graph, place node size here
+for real graph, put file path
 
-SocialNetwork.vcxproj
-    This is the main project file for VC++ projects generated using an Application Wizard.
-    It contains information about the version of Visual C++ that generated the file, and
-    information about the platforms, configurations, and project features selected with the
-    Application Wizard.
+prob:
+int probability for random/preferential graph, placeholder if read from file
 
-SocialNetwork.vcxproj.filters
-    This is the filters file for VC++ projects generated using an Application Wizard. 
-    It contains information about the association between the files in your project 
-    and the filters. This association is used in the IDE to show grouping of files with
-    similar extensions under a specific node (for e.g. ".cpp" files are associated with the
-    "Source Files" filter).
+algo_option:
+0: degree distribution
+1: triangle_brutal
+2: triangle_forward
+3: find_connected_components_DFS
+4: find_connected_components_BFS
+5: diameter_brutal
+6: diameter_approximation
+7: virus_propagate
 
-SocialNetwork.cpp
-    This is the main application source file.
-
-/////////////////////////////////////////////////////////////////////////////
-Other standard files:
-
-StdAfx.h, StdAfx.cpp
-    These files are used to build a precompiled header (PCH) file
-    named SocialNetwork.pch and a precompiled types file named StdAfx.obj.
-
-/////////////////////////////////////////////////////////////////////////////
-Other notes:
-
-AppWizard uses "TODO:" comments to indicate parts of the source code you
-should add to or customize.
-
-/////////////////////////////////////////////////////////////////////////////

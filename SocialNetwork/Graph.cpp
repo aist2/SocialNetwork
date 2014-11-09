@@ -5,7 +5,6 @@ Vertex::Vertex(int newId)
 	id = newId;
 	infected = false;
 	popularity = -1;
-	mark = false;
 }
 
 Vertex::~Vertex()
@@ -214,93 +213,4 @@ std::map<long, long> Graph::computeDegreeDistribution() {
 	timeElapsed = clock() - timeElapsed;
 	std::cout << "Time taken to compute degree distribution: " << ((float)timeElapsed)/CLOCKS_PER_SEC << " second(s)\n";
 	return resultMap;
-}
-
-/*
- * This is a brutal force triangle-finding algorithm.. takes ages to complete using facebook_combined.txt
- */
-std::vector<std::tuple<int, int, int>> Graph::getAllTriangles_brutal() {
-	std::vector<std::tuple<int, int, int> > triangleTuples;
-	clock_t timeElapsed = clock();
-	for (auto i = vertexMap.begin(); i != vertexMap.end(); ++i) {
-		Vertex* focalV = i->second;
-		std::vector<Edge*> focalEdges = focalV->edges;
-		for (unsigned j = 0; j < focalEdges.size(); j++) {
-			Vertex* secondV = focalEdges[j] -> pDestV;
-			for (unsigned k = j + 1; k < focalEdges.size(); k++) {
-				Vertex* thirdV = focalEdges[k] -> pDestV;
-				if (secondV->existEdgeTo(thirdV->id)) {
-					std::tuple<int, int, int> aNode = createTriangleNode(focalV->id, secondV->id, thirdV->id);
-					if (std::find(triangleTuples.begin(), triangleTuples.end(),aNode) == triangleTuples.end()) {
-						triangleTuples.push_back(aNode);
-					}
-				}
-			}
-		}
-	}
-	timeElapsed = clock() - timeElapsed;
-	std::cout << "Time taken to find triangles: "
-			<< ((float) timeElapsed) / CLOCKS_PER_SEC << " second(s)\n";
-	return triangleTuples;
-}
-
-bool compareVertice(Vertex* v1, Vertex* v2) { return v1->getEdgeSize() > v2->getEdgeSize();}
-
-
-/*
- * Refer to Algorithm 1 ¨C forward. Lists all the triangles in a graph [25, 26] in <triangles_short.pdf>
- * This is a O(m3/2) algorithm
- */
-std::vector <std::tuple<int,int,int>> Graph::getAllTriangles_forward() {
-	 std::sort (vertices.begin(), vertices.end(), compareVertice);
-
-	 for (unsigned i = 0; i < vertices.size(); i++) {
-		 vertices[i]->resetNodeData();
-	 }
-
-	 std::vector<std::tuple<int, int, int> > triangleTuples;
-
-	 clock_t timeElapsed = clock();
-	 for (unsigned i = 0; i < vertices.size(); i++) {
-		 Vertex* focalV = vertices[i];
-		 // for all adjacent vertices
-		 for (unsigned j = 0; j < focalV->edges.size(); j++) {
-			 Vertex* secondV = focalV->edges[j]->pDestV;
-			 // only consider smaller degree nodes
-			 // if nodes are of same degree, only consider node with larger id
-			 if ((secondV->getEdgeSize() < focalV->getEdgeSize()) ||
-				 (secondV->getEdgeSize() == focalV->getEdgeSize() && focalV->id < secondV->id)){
-				 // Add common element in nodeData to triangle
-				 std::vector<int> result;
-				 std::set_intersection (focalV->nodeData.begin(), focalV->nodeData.end(), secondV->nodeData.begin(), secondV->nodeData.end(), back_inserter(result));
-				 for (unsigned k=0; k<result.size(); k++) {
-					 std::tuple<int, int, int> aNode = createTriangleNode(focalV->id, secondV->id, result[k]);
-					 triangleTuples.push_back(aNode);
-				 }
-				 // Add focalV into the nodeData of secondV
-				 secondV->nodeData.push_back(focalV->id);
-			 }
-		 }
-	}
-	timeElapsed = clock() - timeElapsed;
-	std::cout << "Time taken to find triangles: " << ((float) timeElapsed) / CLOCKS_PER_SEC
-			<< " second(s)\n";
-	 return triangleTuples;
-}
-
-
-void Graph::outputEdges(std::string path, char delim)
-{
-	std::string line;
-	std::ofstream file;
-	file.open (path);
-	
-	for (auto i = edgeMap.begin(); i != edgeMap.end(); ++i)
-	{
-		file << i->second->pOriginV->id;
-		file << delim;
-		file << i->second->pDestV->id;
-		file << "\n";
-	}
-	file.close();
 }
