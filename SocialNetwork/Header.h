@@ -63,14 +63,14 @@ public:
 	Edge* findEdge(Vertex*,Vertex*);
 	void printEdges();
 	void printVertices();
-	Graph* shallowCopy();
-
+	//Graph* shallowCopy();
+	void outputEdges(std::string,char);
 	// should ideally move these out of Graph class..
 	std::map<long, long> computeDegreeDistribution();
 	std::vector<std::tuple<int,int,int>> getAllTriangles_brutal(); // find all triangles by testing each vertex and its adjacent vetices. Complexity: O power 3
 	std::vector <std::tuple<int,int,int>> getAllTriangles_forward();
 
-	std::vector <Edge*> edges;
+	//std::vector <Edge*> edges;
 	std::vector <Vertex*> vertices;
 	std::unordered_map<int, Vertex*> vertexMap;
 	std::unordered_map<std::string, Edge*> edgeMap;
@@ -109,5 +109,5 @@ std::map<long, long> computePopularity(Graph*);
 std::vector<Graph*> findConnectedComponentsDFS(Graph* pG);
 std::vector<Graph*> findConnectedComponentsBFS(Graph* pG);
 
-long computeDiameter_brutal(Graph* pG);
+//long computeDiameter_brutal(Graph* pG);
 long computeDiameter(Graph* pG, int s);

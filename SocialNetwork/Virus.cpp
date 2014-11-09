@@ -44,7 +44,7 @@ int virusPropagate(Graph* pG, int startVertexId)
 		infectedVertices.reserve( infectedVertices.size() + newInfectedVertices.size() ); // preallocate memory
 		infectedVertices.insert( infectedVertices.end(), newInfectedVertices.begin(), newInfectedVertices.end() );
 		endInfectSize = infectedVertices.size();
-		std::cout << "Round " << round << ", infected nodes " << (endInfectSize) << std::endl;
+		std::cout << "Round " << round << "\tinfected nodes " << (endInfectSize) << std::endl;
 	}
 
 	//flush infected flag
@@ -103,9 +103,9 @@ std::map<long, long> computePopularity(Graph* pG) {
 	std::map<long, long> resultMap;
 	//int popularity;
 
-	for ( auto i = pG->vertices.begin(); i != pG->vertices.end(); i++ ) 
+	for ( auto i = pG->vertexMap.begin(); i != pG->vertexMap.end(); i++ ) 
 	{
-		Vertex* pV = *i;
+		Vertex* pV = i->second;
 		pV->popularity = virusPropagate(pG, pV->id);
 		resultMap[pV->popularity]++;
 	} 
