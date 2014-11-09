@@ -1,0 +1,48 @@
+Reading Graph...
+Reading Graph DONE; time taken:0.592 second(s)
+Number of nodes: 4039
+Number of edges: 88234
+Round 1	infected nodes 2
+Round 2	infected nodes 3
+Round 3	infected nodes 5
+Round 4	infected nodes 9
+Round 5	infected nodes 17
+Round 6	infected nodes 33
+Round 7	infected nodes 65
+Round 8	infected nodes 125
+Round 9	infected nodes 202
+Round 10	infected nodes 235
+Round 11	infected nodes 258
+Round 12	infected nodes 295
+Round 13	infected nodes 344
+Round 14	infected nodes 400
+Round 15	infected nodes 481
+Round 16	infected nodes 625
+Round 17	infected nodes 902
+Round 18	infected nodes 1337
+Round 19	infected nodes 1875
+Round 20	infected nodes 2539
+Round 21	infected nodes 2906
+Round 22	infected nodes 3098
+Round 23	infected nodes 3283
+Round 24	infected nodes 3488
+Round 25	infected nodes 3642
+Round 26	infected nodes 3753
+Round 27	infected nodes 3802
+Round 28	infected nodes 3833
+Round 29	infected nodes 3858
+Round 30	infected nodes 3900
+Round 31	infected nodes 3964
+Round 32	infected nodes 4000
+Round 33	infected nodes 4015
+Round 34	infected nodes 4025
+Round 35	infected nodes 4032
+Round 36	infected nodes 4033
+Round 37	infected nodes 4034
+Round 38	infected nodes 4035
+Round 39	infected nodes 4036
+Round 40	infected nodes 4037
+Round 41	infected nodes 4038
+Round 42	infected nodes 4039
+Round 43	infected nodes 4039
+id: 11, degree: 1, popularity: 43
