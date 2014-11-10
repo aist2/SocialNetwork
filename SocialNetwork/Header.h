@@ -26,6 +26,7 @@ class Vertex
 public:
 	int id;
 	bool infected;
+	bool disconnected;
 	double popularity;
 	std::vector <Edge*> edges;
 	std::vector <int> adj;
@@ -57,12 +58,14 @@ public:
 	int getVertexSize();
 	int getEdgeSize();
 	Edge* addEdge(int,int);
+	Edge* addEdge(Vertex*, Vertex*);
 	Vertex* addVertex(int);
 	Vertex* findVertex(int);
 	Edge* findEdge(Vertex*,Vertex*);
 	void printEdges();
 	void printVertices();
 	Graph* shallowCopy();
+	void removeEdge(Edge*);
 
 	// should ideally move these out of Graph class..
 	std::map<long, long> computeDegreeDistribution();
@@ -92,13 +95,19 @@ std::string int_to_string(int i);
 std::tuple<int,int,int> createTriangleNode (int , int , int );
 
 //Virus Propagate
-int virusPropagate(Graph*, int);
+int virusPropagate(Graph*, int, bool);
 
 void infectIt(Vertex*, std::vector <Vertex*> *);
 
 Vertex* pickOneFriend(Vertex*);
 
 Vertex* randomPick(std::vector <Vertex*>*);
+
+void beFriendToAll(Graph*, Vertex*);
+
+void initializeMonitor(Graph*);
+
+void monitorGraph(Graph*, bool);
 
 std::map<double, int> computePopularityDistribution(Graph*);
 

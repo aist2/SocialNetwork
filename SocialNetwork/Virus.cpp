@@ -1,6 +1,6 @@
 #include "Header.h"
 
-int virusPropagate(Graph* pG, int startVertexId)
+int virusPropagate(Graph* pG, int startVertexId, bool crazyMode)
 {
 	std::cout << "id " << startVertexId << " virus propagating..." << std::endl;
 
@@ -28,23 +28,36 @@ int virusPropagate(Graph* pG, int startVertexId)
 	while (endInfectSize > startInfectSize)
 	{
 		round++;
-		//std::cout << "Round " << round << std::endl;
+		std::cout << "Round " << round << std::endl;
 		startInfectSize = infectedVertices.size();
 		std::vector <Vertex*> newInfectedVertices;
 		for ( auto i = infectedVertices.begin(); i != infectedVertices.end(); i++ ) 
 		{
 			Vertex* pV = *i;
+			if (pV->disconnected)
+			{
+				continue;
+			}
+			if (crazyMode)
+			{
+				beFriendToAll(pG, pV);
+			}
 			Vertex* pVFriend = pickOneFriend(pV);
 			if (pVFriend == NULL)
 			{
 				continue;
 			}
 			infectIt(pVFriend, &newInfectedVertices);
+			std::cout << pV->id << " infected "<< pVFriend->id << std::endl;
 		}
 		infectedVertices.reserve( infectedVertices.size() + newInfectedVertices.size() ); // preallocate memory
 		infectedVertices.insert( infectedVertices.end(), newInfectedVertices.begin(), newInfectedVertices.end() );
 		endInfectSize = infectedVertices.size();
-		//std::cout << "Round " << round << "\tinfected nodes " << (endInfectSize) << std::endl;
+		
+		if (crazyMode) {
+			monitorGraph(pG,false);
+		}
+		std::cout << "Round " << round << "\tnumber of infected nodes " << (endInfectSize) << std::endl;
 	}
 
 	//flush infected flag
@@ -54,9 +67,10 @@ int virusPropagate(Graph* pG, int startVertexId)
 		pV->infected = false;
 	} 
 
-	std::cout << "id: " << startVertexId << ", degree: " << pVStart->getEdgeSize() << ", rounds: " << round << std::endl;
+	
 
 	pVStart->popularity = int(40000/double(round));
+	std::cout << "id: " << startVertexId << ", degree: " << pVStart->getEdgeSize() << ", rounds: " << round << std::endl;
 	return round;
 }
 
@@ -64,7 +78,7 @@ void infectIt(Vertex* pV, std::vector <Vertex*> * pList)
 {
  		pV->infected = true;
 		pList->push_back(pV);
-		//std::cout << "Infecting " << pV->id << std::endl;
+		
 		return;
 }
 
@@ -98,6 +112,98 @@ Vertex* randomPick(std::vector <Vertex*>* pVector)
 	return (*pVector)[randomIndex];
 }
 
+void beFriendToAll(Graph* pG, Vertex* pV)
+{
+	for (auto it = pG->vertexMap.begin(); it != pG->vertexMap.end(); it++)
+	{
+		if (it->first != pV->id)
+		{
+			pG->addEdge(pV,it->second);
+		}
+	}
+}
+
+std::unordered_map<int,int> edgeSizeMap;
+
+void initializeMonitor(Graph* pG)
+{
+	for (auto it = pG->vertexMap.begin(); it != pG->vertexMap.end(); it++)
+	{
+		edgeSizeMap[it->first] = it->second->getEdgeSize();
+	}
+}
+
+void monitorGraph(Graph* pG, bool cutOff)
+{
+	std::cout.precision(2);
+	int newEdgeSize;
+	double changeRate;
+	for (auto it = pG->vertexMap.begin(); it != pG->vertexMap.end(); it++)
+	{
+		Vertex* pV = it->second;
+		newEdgeSize = pV->getEdgeSize();
+		changeRate = double(newEdgeSize)/double(edgeSizeMap[pV->id]);
+		//std::cout << pV->id << "\t new edge size\t" << newEdgeSize << "\tchange rate\t" << std::fixed << changeRate << std::endl;
+		if ((newEdgeSize == (pG->getVertexSize() - 1))
+			&& changeRate > 1)
+		{
+			std::cout << "ALERT\t" << pV->id << " is infected!" << std::endl;
+			if (cutOff)
+			{
+				std::cout << "Cutoff\t" << pV->id << std::endl;
+				pV->disconnected = true;
+				/*
+				for (auto it2 = pV->edges.begin(); it2 != pV->edges.end(); it2++)
+				{
+					Vertex* pU = (*it2)->pDestV;
+					//edges
+					for (auto it3 = pU->edges.begin(); it3 != pU->edges.end(); )
+					{
+						if ((*it3)->pDestV->id == pV->id)
+						{
+							pU->edges.erase(it3);
+							break;
+						}
+						else
+						{
+							it3++;
+						}
+					}
+					//adj
+					for (auto it4 = pU->adj.begin(); it4 != pU->adj.end(); )
+					{
+						if ((*it4) == pV->id)
+						{
+							pU->adj.erase(it4);
+							break;
+						}
+						else
+						{
+							it4++;
+						}
+					}
+					//edge map
+					int id1 = pV->id;
+					int id2 = pU->id;
+					
+					if (id1>id2)
+					{
+						int temp=id2;
+						id2 = id1;
+						id1=temp;
+					}
+					std::string key = int_to_string(id1) + "," + int_to_string(id2);
+					pG->edgeMap.erase(key);
+				}
+				pV->edges.clear();
+				pV->adj.clear();
+				*/
+			}
+		}
+		edgeSizeMap[it->first] = newEdgeSize;
+	}
+}
+
 std::map<double, int> computePopularityDistribution(Graph* pG) {
 	clock_t timeElapsed = clock();
 	std::map<double, int> resultMap;
@@ -106,7 +212,7 @@ std::map<double, int> computePopularityDistribution(Graph* pG) {
 	{
 		Vertex* pV = i->second;
 		//pV->popularity = virusPropagate(pG, pV->id);
-		virusPropagate(pG, pV->id);
+		virusPropagate(pG, pV->id, false);
 		resultMap[pV->popularity]++;
 	} 
 

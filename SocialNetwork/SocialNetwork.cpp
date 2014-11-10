@@ -100,7 +100,7 @@ void runAlgoInMain(string arg, Graph* pG) {
 		cout << "Diameter by approximation: " << computeDiameter(pG, 3) << endl;
 		break;
 	case 7:
-		virusPropagate(pG, 0);
+		virusPropagate(pG, 0, false);
 		break;
 	default:
 		cout << "invalid option; please specify 1/2/3/4/5/6/7 for algo type";
@@ -137,10 +137,12 @@ int main(int argc, const char* argv[]) {
 	//vector <tuple<int,int,int>> triangles = getAllTriangles_brutal(pG);
 	//vector<tuple<int, int, int>> triangles = getAllTriangles_forward(pG);
 	//printTriangles(triangles);
-	//virusPropagate(pG,2269);
 	
-	printDistribution(computePopularityDistribution(pG), "Popularity");
-	pG->printVertices();
+	initializeMonitor(pG);
+	virusPropagate(pG,0,true);
+	
+	//printDistribution(computePopularityDistribution(pG), "Popularity");
+	//pG->printVertices();
 	//printDistribution(computeShortestPath(pG), "Closeness");
 	//system("PAUSE");
 	return 0;

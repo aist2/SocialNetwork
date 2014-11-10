@@ -4,6 +4,7 @@ Vertex::Vertex(int newId)
 {
 	id = newId;
 	infected = false;
+	disconnected = false;
 	popularity = -1;
 }
 
@@ -81,7 +82,8 @@ Edge* Graph::addEdge(int id1, int id2)
 	Vertex* pV2;
 	Edge* pE1 = NULL;
 	Edge* pE2 = NULL;
-			
+	
+	//must: id1 < id2
 	if(id1 > id2)
 	{
 		int temp = id2;
@@ -126,6 +128,97 @@ Edge* Graph::addEdge(int id1, int id2)
 	}
 	return pE1;
 }
+
+Edge* Graph::addEdge(Vertex* pV1, Vertex* pV2)
+{
+	
+	Edge* pE1 = NULL;
+	Edge* pE2 = NULL;
+
+	//must: id1 < id2
+	if(pV1->id > pV2->id)
+	{
+		Vertex* pVTemp = pV2;
+		pV2 = pV1;
+		pV1 = pVTemp;
+	}
+
+
+	if (pV1 != NULL && pV2 != NULL)
+	{
+		pE1 = findEdge(pV1,pV2);
+	}
+	
+	if (pE1 == NULL)
+	{
+
+		pE1 = new Edge(pV1,pV2);
+		pE2 = new Edge(pV2,pV1);
+
+		//edges.push_back(pE1);
+		pV1->edges.push_back(pE1);
+		pV2->edges.push_back(pE2);
+	
+		pV1->adj.push_back(pV2->id);
+		pV2->adj.push_back(pV1->id);
+
+		
+		std::string key = int_to_string(pV1->id) + "," + int_to_string(pV2->id);
+		//std::cout << key << std::endl;
+		edgeMap[key] = pE1;
+	}
+	return pE1;
+}
+
+void Graph::removeEdge(Edge* pE)
+{
+	Vertex* pV1 = pE->pDestV;
+	Vertex* pV2 = pE->pOriginV;
+	
+	
+	if(pV1->id > pV2->id)
+	{
+		Vertex* pVTemp = pV2;
+		pV2 = pV1;
+		pV1 = pV2;
+	}
+
+
+	// vertex edge
+	for (auto it = pV1->edges.begin(); it != pV1->edges.end(); it++)
+	{
+		if ((*it)->pDestV->id == pV2->id)
+		{
+			pV1->edges.erase(it);
+		}
+	}
+	for (auto it = pV2->edges.begin(); it != pV2->edges.end(); it++)
+	{
+		if ((*it)->pDestV->id == pV1->id)
+		{
+			pV2->edges.erase(it);
+		}
+	}
+	// vertex adj
+	for (auto it = pV1->adj.begin(); it != pV1->adj.end(); it++)
+	{
+		if ((*it) == pV2->id)
+		{
+			pV1->adj.erase(it);
+		}
+	}
+	for (auto it = pV2->adj.begin(); it != pV2->adj.end(); it++)
+	{
+		if ((*it) == pV1->id)
+		{
+			pV2->adj.erase(it);
+		}
+	}
+	// graph edgeMap
+	std::string key = int_to_string(pV1->id) + "," + int_to_string(pV2->id);
+	edgeMap.erase(key);
+}
+
 
 Vertex* Graph::addVertex(int id)
 {
