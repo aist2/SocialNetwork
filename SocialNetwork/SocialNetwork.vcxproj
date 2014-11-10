@@ -80,15 +80,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h" />
-    <ClInclude Include="ReadMe.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ConnectedComponent.cpp" />
-    <ClCompile Include="Diameter.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="GenerateGraph.cpp" />
     <ClCompile Include="SocialNetwork.cpp" />
-    <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="Virus.cpp" />
   </ItemGroup>
