@@ -138,12 +138,14 @@ int main(int argc, const char* argv[]) {
 	//vector<tuple<int, int, int>> triangles = getAllTriangles_forward(pG);
 	//printTriangles(triangles);
 	
-	initializeMonitor(pG);
-	virusPropagate(pG,0,true);
-	
+	//initializeMonitor(pG);
+	//virusPropagate(pG,0,true);
 	//printDistribution(computePopularityDistribution(pG), "Popularity");
 	//pG->printVertices();
 	//printDistribution(computeShortestPath(pG), "Closeness");
+
+	std::unordered_map<Vertex*,Vertex*> parent;
+	bool res = bfs(pG, pG->findVertex(0), pG->findVertex(5), &parent);
 	//system("PAUSE");
 	return 0;
 }

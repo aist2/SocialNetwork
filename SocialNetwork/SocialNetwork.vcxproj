@@ -82,9 +82,13 @@
     <ClInclude Include="Header.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ConnectedComponent.cpp" />
+    <ClCompile Include="Diameter.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="GenerateGraph.cpp" />
+    <ClCompile Include="Maxflow.cpp" />
     <ClCompile Include="SocialNetwork.cpp" />
+    <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="Virus.cpp" />
   </ItemGroup>

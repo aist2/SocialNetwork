@@ -129,3 +129,6 @@ long computeDiameter(Graph* pG, int s);
 // Triangle.cpp
 std::vector<std::tuple<int, int, int>> getAllTriangles_brutal(Graph* pG); // find all triangles by testing each vertex and its adjacent vetices. Complexity: O power 3
 std::vector <std::tuple<int,int,int>> getAllTriangles_forward(Graph* pG);
+
+// Maxflow.cpp
+bool bfs(Graph*, Vertex*, Vertex*, std::unordered_map<Vertex*,Vertex*>*);
