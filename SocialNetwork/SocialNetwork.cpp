@@ -144,8 +144,7 @@ int main(int argc, const char* argv[]) {
 	//pG->printVertices();
 	//printDistribution(computeShortestPath(pG), "Closeness");
 
-	std::unordered_map<Vertex*,Vertex*> parent;
-	bool res = bfs(pG, pG->findVertex(0), pG->findVertex(5), &parent);
+	minCut(pG, pG->findVertex(0), pG->findVertex(5));
 	//system("PAUSE");
 	return 0;
 }

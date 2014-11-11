@@ -47,6 +47,7 @@ public:
 	~Edge();
 	Vertex* pOriginV;
 	Vertex* pDestV;
+	int capacity;
 	void print();
 };
 
@@ -65,7 +66,6 @@ public:
 	void printEdges();
 	void printVertices();
 	Graph* shallowCopy();
-	void removeEdge(Edge*);
 
 	// should ideally move these out of Graph class..
 	std::map<long, long> computeDegreeDistribution();
@@ -74,6 +74,8 @@ public:
 	std::vector <Vertex*> vertices;
 	std::unordered_map<int, Vertex*> vertexMap;
 	std::unordered_map<std::string, Edge*> edgeMap;
+
+	bool directed;
 };
 
 // Generate Graph
@@ -132,3 +134,5 @@ std::vector <std::tuple<int,int,int>> getAllTriangles_forward(Graph* pG);
 
 // Maxflow.cpp
 bool bfs(Graph*, Vertex*, Vertex*, std::unordered_map<Vertex*,Vertex*>*);
+void dfs(Graph*, Vertex*, std::unordered_map<int,bool>*);
+void minCut(Graph*, Vertex*, Vertex*);
