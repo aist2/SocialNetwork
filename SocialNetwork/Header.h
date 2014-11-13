@@ -18,6 +18,7 @@
 #include <unordered_map>
 #include <set>
 #include <limits.h>
+#include <cmath>
 
 //Graph
 class Edge;

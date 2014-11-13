@@ -97,7 +97,7 @@ void runAlgoInMain(string arg, Graph* pG) {
 		cout << "Diameter by brutal force: " << computeDiameter_brutal(pG) << endl;
 		break;
 	case 6:
-		cout << "Diameter by approximation: " << computeDiameter(pG, 3) << endl;
+		cout << "Diameter by approximation: " << computeDiameter(pG, sqrt(pG->getVertexSize())) << endl;
 		break;
 	case 7:
 		virusPropagate(pG, 0, false);
