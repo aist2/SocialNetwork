@@ -42,7 +42,7 @@ double f(Vertex* v1) {
 }
 
 double compare(Vertex* v1, Vertex* v2) {
-	return f(v1)>f(v2);
+	return f(v1)<f(v2);
 }
 
 //bool sortVertice(Vertex* v1, Vertex* v2) {

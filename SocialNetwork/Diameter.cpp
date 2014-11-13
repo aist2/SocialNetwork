@@ -6,6 +6,10 @@
  */
 #include "Header.h"
 
+double compareEdgeDest(Edge* e1, Edge* e2) {
+	return (e1->pDestV->id) < (e2->pDestV->id);
+}
+
 // helper
 long bfsFindHeightRaw(Vertex* v, int numVertices) {
 	std::map<int, long> vHeightMap;
@@ -27,6 +31,8 @@ long bfsFindHeightRaw(Vertex* v, int numVertices) {
 			maxHeight = currHeight;
 		}
 		neighbours.pop();
+		// sort edges in increasing dest id order
+		std::sort (vCurr->edges.begin(), vCurr->edges.end(), compareEdgeDest);
 		for (unsigned i = 0; i < vCurr->edges.size(); i++) {
 			Vertex* vNext = vCurr->edges[i]->pDestV;
 			if (!marks[vNext->id]) {

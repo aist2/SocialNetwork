@@ -115,14 +115,14 @@ int main(int argc, const char* argv[]) {
 	//pG = generateRandomGraph(1000, 5);
 	//pG = generatePreferentialGraph(500, 75);
 
-	pG = readRealGraph(argv[1], ' ');
+	pG = readRealGraph(argv[2], ' ');
 	//pG->printEdges();
 	
 
 	cout << "Number of nodes: " << pG->getVertexSize() << endl;
 	cout << "Number of edges: " << pG->getEdgeSize() << endl;
 
-	//runAlgoInMain(argv[4], pG);
+	runAlgoInMain(argv[4], pG);
 	//vector<Graph*> connectedComponents = findConnectedComponentsBFS(pG);
 	//printConnectedComponents(connectedComponents);
 	//cout << "Diameter by brutal force: " << computeDiameter_brutal(pG) << endl;
@@ -144,7 +144,7 @@ int main(int argc, const char* argv[]) {
 	//pG->printVertices();
 	//printDistribution(computeShortestPath(pG), "Closeness");
 
-	edgeConnectivity(pG);
+	//edgeConnectivity(pG);
 	//system("PAUSE");
 	return 0;
 }
