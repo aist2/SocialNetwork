@@ -4,6 +4,7 @@ Vertex::Vertex(int newId)
 {
 	id = newId;
 	infected = false;
+	disconnected = false;
 	popularity = -1;
 }
 
@@ -19,8 +20,7 @@ int Vertex::getEdgeSize()
 
 void Vertex::print()
 {
-	std::cout << "id: " << id;
-	std::cout << "; degree: " << getEdgeSize();
+	std::cout << "id: \t" << id << "; degree: \t" << getEdgeSize() << "; popularity: \t" << popularity;
 	std::cout << std::endl;
 }
 
@@ -45,6 +45,8 @@ Edge::Edge(Vertex* pV1, Vertex* pV2)
 {
 	pOriginV = pV1;
 	pDestV = pV2;
+	capacity = 1; //hard coded capacity
+	flow = 0;
 }
 
 Edge::~Edge()
@@ -58,6 +60,7 @@ void Edge::print()
 
 Graph::Graph()
 {
+	directed = false;
 }
 
 Graph::~Graph()
@@ -82,14 +85,17 @@ Edge* Graph::addEdge(int id1, int id2)
 	Vertex* pV2;
 	Edge* pE1 = NULL;
 	Edge* pE2 = NULL;
-			
-	if(id1 > id2)
+	
+	if (!directed)
 	{
-		int temp = id2;
-		id2 = id1;
-		id1 = temp;
+		//must: id1 < id2
+		if(id1 > id2)
+		{
+			int temp = id2;
+			id2 = id1;
+			id1 = temp;
+		}
 	}
-
 	pV1 = findVertex(id1);
 	pV2 = findVertex(id2);
 
@@ -111,22 +117,67 @@ Edge* Graph::addEdge(int id1, int id2)
 	
 	if (pE1 == NULL)
 	{
-
 		pE1 = new Edge(pV1,pV2);
-		pE2 = new Edge(pV2,pV1);
-
 		//edges.push_back(pE1);
 		pV1->edges.push_back(pE1);
-		pV2->edges.push_back(pE2);
-	
 		pV1->adj.push_back(id2);
-		pV2->adj.push_back(id1);
 
+		if (!directed)
+		{
+			pE2 = new Edge(pV2,pV1);
+			pV2->edges.push_back(pE2);
+			pV2->adj.push_back(id1);
+		}
 		std::string key = int_to_string(id1) + "," + int_to_string(id2);
 		edgeMap[key] = pE1;
 	}
 	return pE1;
 }
+
+Edge* Graph::addEdge(Vertex* pV1, Vertex* pV2)
+{
+	
+	Edge* pE1 = NULL;
+	Edge* pE2 = NULL;
+
+	if (!directed)
+	{
+		//must: id1 < id2
+		if(pV1->id > pV2->id)
+		{
+			Vertex* pVTemp = pV2;
+			pV2 = pV1;
+			pV1 = pVTemp;
+		}
+	}
+
+	if (pV1 != NULL && pV2 != NULL)
+	{
+		pE1 = findEdge(pV1,pV2);
+	}
+	
+	if (pE1 == NULL)
+	{
+
+		pE1 = new Edge(pV1,pV2);
+		//edges.push_back(pE1);
+		pV1->edges.push_back(pE1);
+		pV1->adj.push_back(pV2->id);
+		
+		if (!directed)
+		{
+			pE2 = new Edge(pV2,pV1);
+			pV2->adj.push_back(pV1->id);
+			pV2->edges.push_back(pE2);
+		}
+
+		std::string key = int_to_string(pV1->id) + "," + int_to_string(pV2->id);
+		//std::cout << key << std::endl;
+		edgeMap[key] = pE1;
+	}
+	return pE1;
+}
+
 
 Vertex* Graph::addVertex(int id)
 {
@@ -147,27 +198,28 @@ Vertex* Graph::findVertex(int id)
 
 Edge* Graph::findEdge(Vertex* pV1,Vertex* pV2)
 {
-	//Edge* pE;
 
-	int id1 = pV1->id;
-	int id2 = pV2->id;
-	int temp;
-	std::string key;
+		int id1 = pV1->id;
+		int id2 = pV2->id;
+		int temp;
+		std::string key;
 
-	if (id1 > id2)
-	{
-		temp = id2;
-		id2 = id1;
-		id1 = temp;
-	}
+		if (!directed)
+		{
+			if (id1 > id2)
+			{
+				temp = id2;
+				id2 = id1;
+				id1 = temp;
+			}
+		}
+		key = int_to_string(id1) + "," + int_to_string(id2);
 
-	key = int_to_string(id1) + "," + int_to_string(id2);
-
-	std::unordered_map<std::string,Edge*>::const_iterator iter = edgeMap.find(key);
-	if ( iter == edgeMap.end() )
-		return NULL;
-	else
-		return iter->second;
+		std::unordered_map<std::string,Edge*>::const_iterator iter = edgeMap.find(key);
+		if ( iter == edgeMap.end() )
+			return NULL;
+		else
+			return iter->second;
 
 }
 

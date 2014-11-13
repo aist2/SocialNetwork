@@ -157,4 +157,3 @@ long computeDiameter(Graph* pG, int s) {
 	return maxHeightVN;
 	//return bfsFindHeight(pG->vertexMap.begin()->second, 2);
 }
-

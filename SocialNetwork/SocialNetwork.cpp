@@ -100,7 +100,7 @@ void runAlgoInMain(string arg, Graph* pG) {
 		cout << "Diameter by approximation: " << computeDiameter(pG, 3) << endl;
 		break;
 	case 7:
-		virusPropagate(pG, 0);
+		virusPropagate(pG, 0, false);
 		break;
 	default:
 		cout << "invalid option; please specify 1/2/3/4/5/6/7 for algo type";
@@ -114,18 +114,15 @@ int main(int argc, const char* argv[]) {
 	Graph* pG;
 	//pG = generateRandomGraph(1000, 5);
 	//pG = generatePreferentialGraph(500, 75);
-	if (argc < 5) {
-		cout << readMe;
-		exit(0);
-	}
-	//pG = readRealGraph(argv[1], ' ');
+
+	pG = readRealGraph(argv[1], ' ');
 	//pG->printEdges();
-	//pG->printVertices();
-	pG = readGraphInMain(argv[1], argv[2], argv[3]);
+	
+
 	cout << "Number of nodes: " << pG->getVertexSize() << endl;
 	cout << "Number of edges: " << pG->getEdgeSize() << endl;
 
-	runAlgoInMain(argv[4], pG);
+	//runAlgoInMain(argv[4], pG);
 	//vector<Graph*> connectedComponents = findConnectedComponentsBFS(pG);
 	//printConnectedComponents(connectedComponents);
 	//cout << "Diameter by brutal force: " << computeDiameter_brutal(pG) << endl;
@@ -140,8 +137,14 @@ int main(int argc, const char* argv[]) {
 	//vector <tuple<int,int,int>> triangles = getAllTriangles_brutal(pG);
 	//vector<tuple<int, int, int>> triangles = getAllTriangles_forward(pG);
 	//printTriangles(triangles);
-	virusPropagate(pG,11);
-	//printDegreeDistribution(computePopularity(pG));
+	
+	//initializeMonitor(pG);
+	//virusPropagate(pG,0,true);
+	//printDistribution(computePopularityDistribution(pG), "Popularity");
+	//pG->printVertices();
+	//printDistribution(computeShortestPath(pG), "Closeness");
+
+	edgeConnectivity(pG);
 	//system("PAUSE");
 	return 0;
 }
