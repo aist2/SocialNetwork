@@ -115,10 +115,11 @@ int main(int argc, const char* argv[]) {
 	//pG = generateRandomGraph(1000, 5);
 	//pG = generatePreferentialGraph(500, 75);
 
-	pG = readRealGraph(argv[2], ' ');
+	//pG = readRealGraph(argv[2], ' ');
 	//pG->printEdges();
 	
 
+	pG = readGraphInMain(argv[1], argv[2], argv[3]);
 	cout << "Number of nodes: " << pG->getVertexSize() << endl;
 	cout << "Number of edges: " << pG->getEdgeSize() << endl;
 
