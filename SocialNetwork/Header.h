@@ -48,6 +48,7 @@ public:
 	Vertex* pOriginV;
 	Vertex* pDestV;
 	int capacity;
+	int flow;
 	void print();
 };
 
@@ -135,4 +136,8 @@ std::vector <std::tuple<int,int,int>> getAllTriangles_forward(Graph* pG);
 // Maxflow.cpp
 bool bfs(Graph*, Vertex*, Vertex*, std::unordered_map<Vertex*,Vertex*>*);
 void dfs(Graph*, Vertex*, std::unordered_map<int,bool>*);
-void minCut(Graph*, Vertex*, Vertex*);
+int maxFlow(Graph*, Vertex*, Vertex*);
+Graph* buildResidualGraph(Graph*);
+Graph* restoreResidualGraph(Graph*);
+void runMaxFlow(Graph* pG);
+void edgeConnectivity(Graph*);

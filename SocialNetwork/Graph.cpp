@@ -45,7 +45,8 @@ Edge::Edge(Vertex* pV1, Vertex* pV2)
 {
 	pOriginV = pV1;
 	pDestV = pV2;
-	capacity = 0; //hard coded capacity
+	capacity = 1; //hard coded capacity
+	flow = 0;
 }
 
 Edge::~Edge()

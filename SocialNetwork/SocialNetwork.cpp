@@ -144,7 +144,7 @@ int main(int argc, const char* argv[]) {
 	//pG->printVertices();
 	//printDistribution(computeShortestPath(pG), "Closeness");
 
-	minCut(pG, pG->findVertex(0), pG->findVertex(5));
+	edgeConnectivity(pG);
 	//system("PAUSE");
 	return 0;
 }

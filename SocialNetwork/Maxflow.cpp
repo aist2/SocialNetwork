@@ -11,6 +11,7 @@ bool bfs(Graph* pG, Vertex* s, Vertex* t, std::unordered_map<Vertex*,Vertex*>* p
 	std::set<Vertex*> vertex_queue;
 	vertex_queue.insert(s);
 	visited[s->id] = true;
+	pParent->clear();
 	(*pParent)[s] = NULL;
 
 	while (!vertex_queue.empty())
@@ -22,7 +23,8 @@ bool bfs(Graph* pG, Vertex* s, Vertex* t, std::unordered_map<Vertex*,Vertex*>* p
 		{
 			Edge* pE = *it;
 			Vertex* pV = pE->pDestV;
-			if (visited[pV->id]==false && pE->capacity > 0)
+			int residual = pE->capacity - pE->flow;
+			if (visited[pV->id]==false && residual > 0)
 			{
 				vertex_queue.insert(pV);
 				(*pParent)[pV] = pU;
@@ -51,7 +53,7 @@ void dfs(Graph* pG, Vertex* s, std::unordered_map<int,bool>* pVisited)
 }
 
 // Prints the minimum s-t cut
-void minCut(Graph* pG, Vertex* s, Vertex* t)
+int maxFlow(Graph* pRG, Vertex* s, Vertex* t)
 {
 	Vertex* pV;
 	Vertex* pU;
@@ -59,27 +61,9 @@ void minCut(Graph* pG, Vertex* s, Vertex* t)
     // Create a residual graph and fill the residual graph with
     // given capacities in the original graph as residual capacities
     // in residual graph
-    Graph* pRG; // rGraph[i][j] indicates residual capacity of edge i-j
-	pRG = pG;
+	// rGraph[i][j] indicates residual capacity of edge i-j
 	
-	pRG->directed = true;
-	for (auto it=pRG->edgeMap.begin();it!=pRG->edgeMap.end();it++)
-	{
-		Edge* pE = it->second;
-		pE->capacity = 1;
-	}
 
-	pRG->edgeMap.clear();
-	for (auto it=pRG->vertexMap.begin();it!=pRG->vertexMap.end();it++)
-	{
-		Vertex* pV = it->second;
-		for (auto it2=pV->edges.begin();it2!=pV->edges.end();it2++)
-		{
-			Edge* pE = *it2;
-			std::string key = int_to_string(pE->pOriginV->id) + "," + int_to_string(pE->pDestV->id);
-			pRG->edgeMap[key] = pE;
-		}
-	}
  
     std::unordered_map<Vertex*,Vertex*> parent;  // This array is filled by BFS and to store path
  
@@ -95,7 +79,7 @@ void minCut(Graph* pG, Vertex* s, Vertex* t)
             pU = parent[pV];
 			Edge* pE = pRG->findEdge(pU,pV);
             path_flow = std::min(path_flow, pE->capacity);
-			std::cout << pE->pOriginV->id << "\t->t" << pE->pDestV->id << std::endl;
+			
         }
  
         // update residual capacities of the edges and reverse edges
@@ -105,31 +89,122 @@ void minCut(Graph* pG, Vertex* s, Vertex* t)
             pU = parent[pV];
 			Edge* pE1 = pRG->findEdge(pU,pV);
 			Edge* pE2 = pRG->findEdge(pV,pU);
-            pE1->capacity -= path_flow;
-            pE2->capacity += path_flow;
+            pE1->flow += path_flow;
+            pE2->flow -= path_flow;
+			//std::cout << pE1->pOriginV->id << "\t->\t" << pE1->pDestV->id << std::endl;
         }
     }
  
     // Flow is maximum now, find vertices reachable from s
+	/*
     std::unordered_map<int,bool> visited;
-	for (auto it = pRG->vertexMap.begin(); it != pG->vertexMap.end(); it++) {
+	for (auto it = pRG->vertexMap.begin(); it != pRG->vertexMap.end(); it++) {
 		visited[it->first] = false;
 	}
     dfs(pRG, s, &visited);
- 
+	*/
     // Print all edges that are from a reachable vertex to
     // non-reachable vertex in the original graph
 	/*
-    for (int i = 0; i < V; i++)
-      for (int j = 0; j < V; j++)
-         if (visited[i] && !visited[j] && graph[i][j])
-              cout << i << " - " << j << endl;
+	for (auto it=pRG->vertexMap.begin();it!=pRG->vertexMap.end();it++)
+	{
+		for (auto it2=pRG->vertexMap.begin();it2!=pRG->vertexMap.end();it2++)
+		{
+			if (visited[it->first] && !visited[it2->first] && pRG->findEdge(it->second,it2->second))
+			{
+				std::cout << it->first << " -> " << it2->first << std::endl;
+			}
+		}
+	}
 	*/
+	int sum = 0;
+	for (auto it2=s->edges.begin();it2!=s->edges.end();it2++)
+	{
+		Edge* pE = *it2;
+		sum+=pE->flow;
+	}
+	std::cout << s->id << " -> " << t->id << "\tmax flow\t" << sum << std::endl;
+    return sum;
+}
 
-	for (auto it=pRG->edgeMap.begin();it!=pRG->edgeMap.end();it++)
+Graph* buildResidualGraph(Graph* pG)
+{
+	pG->directed = true;
+	pG->edgeMap.clear();
+	for (auto it=pG->vertexMap.begin();it!=pG->vertexMap.end();it++)
+	{
+		Vertex* pV = it->second;
+		for (auto it2=pV->edges.begin();it2!=pV->edges.end();it2++)
+		{
+			Edge* pE = *it2;
+			std::string key = int_to_string(pE->pOriginV->id) + "," + int_to_string(pE->pDestV->id);
+			pG->edgeMap[key] = pE;
+		}
+	}
+	return pG;
+}
+
+Graph* restoreResidualGraph(Graph* pG)
+{
+	for (auto it=pG->edgeMap.begin();it!=pG->edgeMap.end();it++)
 	{
 		Edge* pE = it->second;
-		std::cout << it->first << "\t residual capacity\t" << pE->capacity << std::endl;
+		pE->flow = 0;
 	}
-    return;
+	return pG;
+}
+
+void runMaxFlow(Graph* pG)
+{
+	Vertex* pU;
+	Vertex* pV;
+	Graph* pRG = buildResidualGraph(pG);
+	std::unordered_map<int,int> maxFlowMap;
+	int flow;
+
+	for (int i = 0; i < pG->vertices.size(); i++)
+	{
+		pU = pG->vertices[i];
+		for (int j = i; j < pG->vertices.size(); j++)
+		{
+			pV = pG->vertices[j];
+			if (pU->id != pV->id)
+			{
+				flow = maxFlow(pRG, pU, pV);
+				maxFlowMap[pU->id] += flow;
+				maxFlowMap[pV->id] += flow;
+				pRG = restoreResidualGraph(pRG);
+			}
+		}
+	}
+
+	std::map<double, int> distMap;
+
+	std::cout << "Node\tMax Flow Score" << std::endl;
+	for ( auto i = maxFlowMap.begin(); i != maxFlowMap.end(); i++ ) 
+	{
+		double flow = i->second;
+		distMap[flow]++;
+		std::cout << i->first << "\t" << i->second << std::endl;
+	} 
+}
+
+void edgeConnectivity(Graph* pG)
+{
+	int minEdge = pG->getEdgeSize();
+	Vertex* pS = pG->findVertex(0);
+
+	Graph* pRG = buildResidualGraph(pG);
+	
+	for (auto it=pRG->vertexMap.begin();it!=pRG->vertexMap.end();it++)
+	{
+		Vertex* pV = it->second;
+		if (pS->id != pV->id)
+		{
+			int flow = maxFlow(pRG, pS, pV);
+			pRG = restoreResidualGraph(pRG);
+			minEdge = std::min(minEdge,flow);
+		}
+	}
+	std::cout << "Edge connectivity: " << minEdge;
 }
