@@ -32,7 +32,7 @@ long bfsFindHeightRaw(Vertex* v, int numVertices) {
 		}
 		neighbours.pop();
 		// sort edges in increasing dest id order
-		std::sort (vCurr->edges.begin(), vCurr->edges.end(), compareEdgeDest);
+		std::sort(vCurr->edges.begin(), vCurr->edges.end(), compareEdgeDest);
 		for (unsigned i = 0; i < vCurr->edges.size(); i++) {
 			Vertex* vNext = vCurr->edges[i]->pDestV;
 			if (!marks[vNext->id]) {
@@ -58,8 +58,7 @@ long bfsFindHeight(Vertex* v, int numVertices) {
 }
 
 // helper
-std::vector<Vertex*> bfsFindNeighboursSelfInclusive(Vertex* v,
-		int numVertices) {
+std::vector<Vertex*> bfsFindNeighboursSelfInclusive(Vertex* v, int numVertices) {
 	std::map<int, bool> marks;
 	marks[v->id] = true;
 	std::queue<Vertex*> neighbours;
@@ -116,50 +115,58 @@ long bfsFindHeight(Vertex* v) {
 long computeDiameter_brutal(Graph* pG) {
 	clock_t timeElapsed = clock();
 	long maxHeight = -1;
-	for (std::unordered_map<int, Vertex*>::iterator it = pG->vertexMap.begin(); it != pG->vertexMap.end(); it++) {
-		// unmark all vertices
-		long currHeight = bfsFindHeight(it->second);
-		if (currHeight > maxHeight) {
-			maxHeight = currHeight;
+
+	std::vector<Graph*> connectedComponents = findConnectedComponentsDFS(pG);
+	for (unsigned i = 0; i < connectedComponents.size(); i++) {
+		Graph* currentG = connectedComponents[i];
+		for (std::unordered_map<int, Vertex*>::iterator it = currentG->vertexMap.begin();
+				it != currentG->vertexMap.end(); it++) {
+			// unmark all vertices
+			long currHeight = bfsFindHeight(it->second);
+			if (currHeight > maxHeight) {
+				maxHeight = currHeight;
+			}
 		}
 	}
 	timeElapsed = clock() - timeElapsed;
-	std::cout << "Time taken to compute diameter using brutal force: "
-			<< ((float) timeElapsed) / CLOCKS_PER_SEC << " second(s)\n";
+	std::cout << "Time taken to compute diameter using brutal force: " << ((float) timeElapsed) / CLOCKS_PER_SEC
+			<< " second(s)\n";
 	return maxHeight;
 }
 
-// the only public method
 long computeDiameter(Graph* pG, int s) {
 	clock_t timeElapsed = clock();
 	Vertex* selectedV;
-	long maxHeight = -1;
 
+	std::vector<Graph*> connectedComponents = findConnectedComponentsDFS(pG);
 	//// compute d(out)(s)(w)
 	// find v
-	for (std::unordered_map<int, Vertex*>::iterator it = pG->vertexMap.begin(); it != pG->vertexMap.end(); it++) {
-		long currHeight = bfsFindHeight(it->second, s);
-		if (currHeight >= maxHeight) {
-			maxHeight = currHeight;
-			selectedV = it->second;
+	long maxHeightResult = -1; //reuse
+	for (unsigned i = 0; i < connectedComponents.size(); i++) {
+		long maxHeight = -1;
+		Graph* currentG = connectedComponents[i];
+		for (std::unordered_map<int, Vertex*>::iterator it = currentG->vertexMap.begin(); it != currentG->vertexMap.end(); it++) {
+			long currHeight = bfsFindHeight(it->second, s);
+			if (currHeight >= maxHeight) {
+				maxHeight = currHeight;
+				selectedV = it->second;
+			}
 		}
-	}
 
-	// find neighbours of v (including v), bfs
-	long maxHeightVN = -1; //reuse
-	std::vector<Vertex*> vNeighbours = bfsFindNeighboursSelfInclusive(selectedV,
-			s);
+		std::vector<Vertex*> vNeighbours = bfsFindNeighboursSelfInclusive(selectedV, s);
 
-	for (unsigned i = 0; i < vNeighbours.size(); i++) {
-		long currHeight = bfsFindHeight(vNeighbours[i]);
-		if (currHeight > maxHeightVN) {
-			maxHeightVN = currHeight;
+		for (unsigned i = 0; i < vNeighbours.size(); i++) {
+			long currHeight = bfsFindHeight(vNeighbours[i]);
+			if (currHeight > maxHeightResult) {
+				maxHeightResult = currHeight;
+			}
 		}
 	}
 
 	timeElapsed = clock() - timeElapsed;
-	std::cout << "Time taken to compute diameter using approx algorithm: "
-			<< ((float) timeElapsed) / CLOCKS_PER_SEC << " second(s)\n";
-	return maxHeightVN;
+	std::cout << "Time taken to compute diameter using approx algorithm: " << ((float) timeElapsed) / CLOCKS_PER_SEC
+			<< " second(s)\n";
+	return maxHeightResult;
 	//return bfsFindHeight(pG->vertexMap.begin()->second, 2);
 }
+
