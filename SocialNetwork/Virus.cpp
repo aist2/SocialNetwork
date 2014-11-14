@@ -55,7 +55,7 @@ int virusPropagate(Graph* pG, int startVertexId, bool crazyMode)
 		endInfectSize = infectedVertices.size();
 		
 		if (crazyMode) {
-			monitorGraph(pG,false);
+			monitorGraph(pG,true);
 		}
 		std::cout << "Round " << round << "\tnumber of infected nodes " << (endInfectSize) << std::endl;
 	}

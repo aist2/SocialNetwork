@@ -100,7 +100,17 @@ void runAlgoInMain(string arg, Graph* pG) {
 		cout << "Diameter by approximation: " << computeDiameter(pG, sqrt(pG->getVertexSize())) << endl;
 		break;
 	case 7:
-		virusPropagate(pG, 0, false);
+		printDistribution(computePopularityDistribution(pG), "Popularity");
+		break;
+	case 8:
+		initializeMonitor(pG);
+		virusPropagate(pG,0,true);
+		break;
+	case 9:
+		printDistribution(computeShortestPath(pG), "Closeness");
+		break;
+	case 10:
+		edgeConnectivity(pG);
 		break;
 	default:
 		cout << "invalid option; please specify 1/2/3/4/5/6/7 for algo type";

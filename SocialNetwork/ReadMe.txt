@@ -1,3 +1,7 @@
+CS5234 Mini-Project Social Network
+Li Xiang 	A0120036B
+Lu Xiaodi 	A0057015N
+========================================================
 Please run the program with following arguments: 
 
 SocialNetwork <graph_gen_type> <nodeSize|graph_input_file> <prob> <algo_option> 
@@ -22,5 +26,8 @@ algo_option:
 4: find_connected_components_BFS
 5: diameter_brutal
 6: diameter_approximation
-7: virus_propagate
+7: compute popularity score and display distribution
+8: Simulate infected nodes befriend all other nodes and monitor identities and disconnects infected nodes
+9: Compute closeness and print distribution
+10: Compute edge connectivity
 
